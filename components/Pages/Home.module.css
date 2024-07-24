@@ -1,0 +1,140 @@
+
+/* Page 1 grid areas */
+.snippet1 { grid-area: snippet1; }
+.main { grid-area: main; }
+.snippet2 { grid-area: snippet2; }
+.ad2 { grid-area: ad2;}
+.newsCard {grid-area: newsCard;}
+.newsCardTab {grid-area: newsCardTab;}
+.heading {grid-area: heading;}
+.scrollCard {grid-area: scrollCard;}
+.snippet1small {grid-area: snippet1small;}
+.newsBullets {grid-area: newsBullets;}
+
+/* Page 1 desktop view / DEFAULT VIEW */
+.grid-container{
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "snippet1 main snippet2"
+    "snippet1 ad2  snippet2"
+    "heading heading heading"
+    "scrollCard scrollCard scrollCard";
+  grid-gap: 1rem;
+}
+
+
+.newsCard,.newsCardTab, .snippet1small, .newsBullets{
+  display: none;
+}
+
+
+/* Page 1 tablet view */
+@media only screen and (max-width: 1079px) {
+  .grid-container{
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto ;
+    grid-template-areas: 
+      "main snippet1"
+      "ad2 snippet1" 
+      "newsCardTab newsCardTab"
+      "heading heading "
+    "scrollCard scrollCard ";
+  }
+
+  .snippet1, .main, .newsCardTab{
+    display: block;
+  }
+  .snippet2, .newsCard, .snippet1small, .newsBullets{
+    display: none;
+  }
+  
+}
+
+/* Page 1 mobile view */
+@media only screen and (max-width: 600px) {
+  .grid-container{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto ;
+    grid-template-areas: 
+      "newsCard" 
+      "snippet1small"
+      "ad2" 
+      "newsBullets"
+      "snippet2"
+      "heading "
+    "scrollCard ";
+    grid-gap: 0;
+    
+  }
+  .newsCard,  .snippet2, .ad2, .snippet1small, .newsBullets{
+    display: block;
+  }
+  .newsCardTab, .main, .snippet1{
+    display: none;
+  }
+}
+
+
+ 
+
+
+/* page-2 starts here */
+
+/* page 2 grid areas */
+.headingKL { grid-area: headingKL;}
+.p2kl { grid-area: p2kl; }
+.p2cardkl { grid-area: p2cardkl; }
+.p2cardklsmall {grid-area: p2cardklsmall;}
+.p2national { grid-area: p2national; }
+.p2cardNational { grid-area: p2cardNational; }
+.NewsAd1 {grid-area: NewsAd1;}
+.newsBulletsP2 {grid-area: bulletp2;}
+.newsCardTabp2 {grid-area: cardp2;}
+
+/* page 2 Default/ Desktop view */
+.page-2{
+  
+  display: grid;
+  grid-template-columns: 1.3fr 1.1fr ;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "NewsAd1 NewsAd1"
+    "bulletp2 cardp2"
+   "headingKL headingKL"
+    "p2kl p2cardkl ";
+    /* "p2national p2cardNational"; */
+    grid-gap: 0.5rem;
+}
+
+
+.p2cardklsmall{
+  display: none;
+} 
+
+
+/* Page 2 tablet view */
+@media only screen and (max-width: 1079px) {
+  .page-2{
+    grid-template-columns: 1fr ;
+    grid-template-rows: auto ;
+    grid-template-areas: 
+    "NewsAd1"
+    "headingKL"
+    "p2kl "
+    "p2cardklsmall";
+    
+  }
+
+   .p2cardklsmall{
+    display: block;
+  }
+  .p2cardkl, .newsBulletsP2, .newsCardTabp2{
+    display: none;
+  }
+  
+} 
+
+
+

@@ -1,0 +1,57 @@
+/* page 2 grid areas */
+.headingKL { grid-area: headingKL; }
+.p2kl { grid-area: p2kl; }
+.NewsAd1 { grid-area: NewsAd1; }
+.btn { grid-area: btn; }
+.h1scroll { grid-area: h1scroll; }
+.newsScroll { grid-area: newsScroll;}
+.small {grid-area: small; }
+.bullets { grid-area: bullets; }
+.related { grid-area: related; }
+
+
+
+/* page 2 Default/ Desktop view */
+.page-2 {
+  display: grid;
+  grid-template-columns: 2fr 1.1fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "headingKL p2kl"
+    "headingKL NewsAd1"
+    "btn NewsAd1"
+    "h1scroll h1scroll"
+    "newsScroll newsScroll";
+  grid-gap: 1rem;
+}
+
+.p2cardklsmall, .small , .bullets , .related{
+  display: none;
+}
+
+/* Page 1 tablet view */
+@media only screen and (max-width: 1079px) {
+  .page-2 {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+      
+      "headingKL"
+      "related"
+      "small"
+      "btn"
+      "NewsAd1"
+      "p2cardklsmall"
+      "h1scroll"
+      "newsScroll"
+      "bullets";
+  }
+
+  .p2cardklsmall, .small, .bullets, .related {
+    display: block;
+  }
+
+  .p2kl {
+    display: none;
+  }
+}

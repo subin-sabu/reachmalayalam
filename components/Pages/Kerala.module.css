@@ -1,0 +1,51 @@
+/* page 2 grid areas */
+.h1kerala { grid-area: h1kl; }
+.main { grid-area: main; }
+.newsCard { grid-area: newsCard; }
+.share { grid-area: share; }
+.h1scroll{ grid-area: btn; }
+.newsScroll {grid-area: newsScroll;}
+.more {grid-area: more;}
+.newsAd1 {grid-area: newsAd1;}
+
+/* page 2 Default/ Desktop view */
+.page-2 {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "main share"
+    "newsAd1 share"
+    "more more"
+    "btn btn"
+    "newsScroll newsScroll";
+  grid-gap: 1rem;
+}
+
+.p2cardklsmall, .newsCard {
+  display: none;
+}
+
+/* Page 1 tablet view */
+@media only screen and (max-width: 600px) {
+  .page-2 {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 
+      
+    "newsCard"
+    "share"
+    "newsAd1"
+    "btn "
+    "newsScroll"
+    "more ";
+  }
+
+  .p2cardklsmall , .newsCard{
+    display: block;
+  }
+
+  .p2kl , .main{
+    display: none;
+  }
+}

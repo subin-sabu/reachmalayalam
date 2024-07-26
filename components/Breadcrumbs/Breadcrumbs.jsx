@@ -3,7 +3,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from 'next/link';
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string && string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function handleClick(event) {
@@ -24,7 +24,7 @@ export default function BasicBreadcrumbs({ category , id}) {
           {capitalizedPage}
         </Link>
         <Link href="" style={{color: '#212121',  textDecoration: 'none', }}>
-          {id.substring(0,10)}
+          {id && id.substring(0,10)}
         </Link>
       </Breadcrumbs>
     </div>

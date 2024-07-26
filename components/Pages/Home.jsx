@@ -24,7 +24,8 @@ function Home() {
   const { contextLoading } = useContext(NewsContext);
 
   if (contextLoading) {
-    return <div><Loader /></div>;
+    console.log('context is loading');
+    // return <div><Loader /></div>;
   }
 
   return (

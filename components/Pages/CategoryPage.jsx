@@ -1,4 +1,4 @@
-"use client"
+
 
 import React, { useContext } from 'react'
 import NewsCardShare from '../NewsCard/NewsCardShare'
@@ -22,14 +22,15 @@ function capitalizeFirstLetter(string) {
   return ""
 }
 
-function Kerala({category}) {
+function CategoryPage({category}) {
       
   const capitalizedCategory =  capitalizeFirstLetter(category);
 
   const { contextLoading } = useContext(NewsContext);
 
   if (contextLoading) {
-    return <div><Loader /></div>;
+    console.log("context is loading");
+    // return <div><Loader /></div>;
   }
   
 
@@ -59,4 +60,4 @@ function Kerala({category}) {
   )
 }
 
-export default Kerala
+export default CategoryPage;

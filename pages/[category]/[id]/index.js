@@ -6,11 +6,14 @@ import styles from "@/styles/Home.module.css";
 import News from "@/components/Pages/News";
 import { fetchNewsWithID } from "@/lib/fetchNews";
 import { fetchLatestNews } from "@/lib/fetchLatestNews";
-import pages from "@/components/Navbar/Categories";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function NewsPage({ newsData, category }) {
+  if (!newsData) {
+    return <div>Article not found</div>;
+  }
+
   return (
     <>
       <Head>
@@ -32,24 +35,38 @@ export async function getStaticPaths() {
   const paths = [];
 
   latestNewsItems.forEach(news => {
-    const encodedId = encodeURIComponent(news.id);
-    pages.slice(1).map(page => page.english).forEach(category => {
-      paths.push({
-        params: { category, id: encodedId },
-      });
+    const encodedId = encodeURIComponent(news.id); // Encode the ID to ensure it fits in the URL
+    const category = news.category;
+    paths.push({
+      params: { category, id: encodedId },
     });
   });
 
   return {
     paths,
-    fallback: 'blocking',
+    fallback: 'blocking', // Use blocking to ensure new paths are generated at request time
   };
 }
 
 export async function getStaticProps({ params }) {
   const { id, category } = params;
-  const decodedId = decodeURIComponent(id);
-  const newsData = await fetchNewsWithID(decodedId);
+  const decodedId = decodeURIComponent(id); // Decode the URL-encoded ID
+  let newsData = null;
+
+  console.log("Decoded ID:", decodedId); // Log the decoded ID for debugging
+
+  try {
+    newsData = await fetchNewsWithID(decodedId);
+    console.log("Fetched News Data:", newsData); // Log the fetched news data for debugging
+  } catch (error) {
+    console.error(`Failed to fetch news with ID: ${decodedId}`, error);
+  }
+
+  if (!newsData) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
@@ -59,3 +76,5 @@ export async function getStaticProps({ params }) {
     revalidate: 50, // Regenerate the page every 50 seconds
   };
 }
+
+

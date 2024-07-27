@@ -14,11 +14,15 @@ import { formatTimestamp } from '../../Utils/FormatTimestamp'
 
 
 
-export default function MainNews({ startIndex, endIndex, className, cardLimit, category, tags,  heading, }) {
+export default function MainNews({ startIndex, endIndex, className, cardLimit, category, tags,  heading, data }) {
 
   // Use context to get the news array
-  const {news, contextLoading} = useContext(NewsContext);
-
+  const { contextLoading} = useContext(NewsContext);
+ 
+  
+  const news = data;
+  
+  
   // Filter newsArray based on category if category prop is received, otherwise use all of newsArray
   let filteredNews = category ? news.filter(news => news.category === category) : news;
 

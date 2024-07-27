@@ -22,7 +22,7 @@ function capitalizeFirstLetter(string) {
   return ""
 }
 
-function CategoryPage({category}) {
+function CategoryPage({category, data}) {
       
   const capitalizedCategory =  capitalizeFirstLetter(category);
 
@@ -41,7 +41,7 @@ function CategoryPage({category}) {
         <BasicBreadcrumbs category={category} />
         <div className={styles[`page-2`]}>
           
-          <MainNews category={category} cardLimit={1} className={styles.main} />
+          <MainNews category={category} cardLimit={1} className={styles.main} data={data}/>
           <NewsCard category={category} cardLimit={1} className={styles.newsCard} />
 
           <NewsCardVertical category={category} heading={`Recent in ${capitalizedCategory}`} cardLimit={4} startIndex={1} className={styles.share}/>

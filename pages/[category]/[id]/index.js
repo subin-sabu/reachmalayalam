@@ -30,33 +30,33 @@ export default function NewsPage({ newsData, category }) {
   );
 }
 
-export async function getStaticPaths() {
-  const latestNewsItems = await fetchLatestNews(); // Fetch the latest 10 news items
-  const paths = [];
+// export async function getStaticPaths() {
+//   const latestNewsItems = await fetchLatestNews(); // Fetch the latest 10 news items
+//   const paths = [];
 
-  latestNewsItems.forEach(news => {
-    const encodedId = encodeURIComponent(news.id); // Encode the ID to ensure it fits in the URL
-    const category = news.category;
-    paths.push({
-      params: { category, id: encodedId },
-    });
-  });
+//   latestNewsItems.forEach(news => {
+//     const encodedId = encodeURIComponent(news.id); // Encode the ID to ensure it fits in the URL
+//     const category = news.category;
+//     paths.push({
+//       params: { category, id: encodedId },
+//     });
+//   });
 
-  return {
-    paths,
-    fallback: 'blocking', // Use blocking to ensure new paths are generated at request time
-  };
-}
+//   return {
+//     paths,
+//     fallback: 'blocking', // Use blocking to ensure new paths are generated at request time
+//   };
+// }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const { id, category } = params;
-  const decodedId = decodeURIComponent(id); // Decode the URL-encoded ID
+  // const decodedId = decodeURIComponent(id); // Decode the URL-encoded ID
   let newsData = null;
 
-  console.log("Decoded ID:", decodedId); // Log the decoded ID for debugging
+  // console.log("Decoded ID:", decodedId); // Log the decoded ID for debugging
 
   try {
-    newsData = await fetchNewsWithID(decodedId);
+    newsData = await fetchNewsWithID(id);
     console.log("Fetched News Data:", newsData); // Log the fetched news data for debugging
   } catch (error) {
     console.error(`Failed to fetch news with ID: ${decodedId}`, error);
@@ -73,7 +73,7 @@ export async function getStaticProps({ params }) {
       newsData,
       category,
     },
-    revalidate: 50, // Regenerate the page every 50 seconds
+    // revalidate: 50, // Regenerate the page every 50 seconds
   };
 }
 

@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+// components/Pages/News.jsx
+
+import React, { useEffect, useState } from 'react';
 import NewsElaborate from '../NewsElaborate/NewsElaborate';
 import NewsAd1 from '../Advertisements/NewsAd1';
 import { Container, Typography, Button } from '@mui/material';
@@ -15,6 +17,8 @@ import NewsBullets from '../NewsBullets/NewsBullets';
 import NewsCardVertical from '../NewsCard/NewsCardVertical';
 import Loader from '../Loader';
 import RelatedNews from '../Tag Search/RelatedNews';
+import { fetchRelatedNews } from '@/lib/fetchRelatedNews';
+
 
 function capitalizeFirstLetter(string) {
   if (string) {
@@ -23,9 +27,18 @@ function capitalizeFirstLetter(string) {
   return '';
 }
 
-function News({ newsData, category, relatedNews }) {
+function News({ newsData, category }) {
   const capitalizedCategory = capitalizeFirstLetter(category);
   const navigate = useNavigate();
+
+  const [relatedNews, setRelatedNews ]= useState([])
+  useEffect(() => {
+    if (newsData && newsData.tags) {
+      fetchRelatedNews(newsData.tags, newsData.id, 6, 6)
+        .then((data) => setRelatedNews(data))
+        .catch((error) => console.error("Failed to fetch related news", error));
+    }
+  }, [newsData]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -60,7 +73,12 @@ function News({ newsData, category, relatedNews }) {
           <HomeAd16x9 className={styles.NewsAd1} />
           <RelatedNews id={newsData.id} heading="Related Content" className={styles.related} />
           <NewsCardSmall startIndex={0} endIndex={6} category={category} heading={`Recent in ${capitalizedCategory}`} className={styles.small} />
-          <NewsCardVertical startIndex={0} endIndex={15} heading="Must Read" className={styles.p2kl} data={relatedNews}/>
+          {relatedNews.length > 0 ? (
+          <NewsCardVertical  heading="Must Read" className={styles.p2kl} data={relatedNews}/> ) : <p>Loading related news... </p>
+        }
+          
+          
+          
           <NewsCardShare startIndex={0} cardLimit={14} heading="Latest News" className={styles.p2cardklsmall} />
           <Typography className={styles.h1scroll} fontSize={20} fontWeight={600} color="primary.sub" sx={{ display: 'flex', justifyContent: 'flex-start', gap: '.7rem', alignSelf: 'flex-start', marginTop: '1.5rem' }}>
             <ArrowCircleRightIcon />{`In News for a while now..`}

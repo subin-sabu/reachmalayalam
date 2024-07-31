@@ -32,6 +32,6 @@ export async function getStaticProps() {
     props: {
       InitialNews,
     },
-    revalidate: 60, // Regenerate the page every 10 seconds
+    revalidate: 3600, // Regenerate the page every 10 seconds
   };
 }

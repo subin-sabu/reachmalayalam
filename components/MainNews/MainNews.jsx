@@ -9,7 +9,7 @@ import { CardActionArea, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import Link from 'next/link';
 import { NewsContext } from '../../contexts/NewsContext';
-import { formatTimestamp } from '../../Utils/FormatTimestamp'
+import { formatTimestamp, formatTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp'
 
 
 
@@ -84,7 +84,7 @@ export default function MainNews({ startIndex, endIndex, className, cardLimit, c
                     />
                     <CardContent sx={{ height: '80%', display: 'flex', flexDirection: 'column' }}>
                       <Typography gutterBottom variant="caption" color='text.secondary' component="div" sx={{display:{xs:'none', sm: 'block'}}} >
-                        {formatTimestamp(news.timestamp)}
+                        {formatTimestampFromMilliSeconds(news.timestamp)}
                       </Typography>
 
                       <Typography variant="body1" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '4', WebkitBoxOrient: 'vertical', wordBreak: 'break-word' }}>

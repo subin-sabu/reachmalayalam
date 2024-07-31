@@ -23,7 +23,7 @@ function capitalizeFirstLetter(string) {
   return '';
 }
 
-function News({ newsData, category }) {
+function News({ newsData, category, relatedNews }) {
   const capitalizedCategory = capitalizeFirstLetter(category);
   const navigate = useNavigate();
 
@@ -60,7 +60,7 @@ function News({ newsData, category }) {
           <HomeAd16x9 className={styles.NewsAd1} />
           <RelatedNews id={newsData.id} heading="Related Content" className={styles.related} />
           <NewsCardSmall startIndex={0} endIndex={6} category={category} heading={`Recent in ${capitalizedCategory}`} className={styles.small} />
-          <NewsCardVertical startIndex={0} endIndex={15} heading="Must Read" className={styles.p2kl} />
+          <NewsCardVertical startIndex={0} endIndex={15} heading="Must Read" className={styles.p2kl} data={relatedNews}/>
           <NewsCardShare startIndex={0} cardLimit={14} heading="Latest News" className={styles.p2cardklsmall} />
           <Typography className={styles.h1scroll} fontSize={20} fontWeight={600} color="primary.sub" sx={{ display: 'flex', justifyContent: 'flex-start', gap: '.7rem', alignSelf: 'flex-start', marginTop: '1.5rem' }}>
             <ArrowCircleRightIcon />{`In News for a while now..`}

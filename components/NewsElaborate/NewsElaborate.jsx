@@ -1,11 +1,11 @@
+// components/NewsElaborate/NewsElaborate.jsx
+
 "use client"
-import React, { useContext, useEffect, useState } from 'react';
-import { NewsContext } from '../../contexts/NewsContext';
-import { db } from '../../lib/firebase';
-import {  Paper, CardContent, Typography, Box, CardMedia, IconButton, Link as MuiLink } from '@mui/material';
+
+import React, { useState } from 'react';
+import { Paper, CardContent, Typography, Box, CardMedia, IconButton, Link as MuiLink } from '@mui/material';
 import HomeAd1 from '../Advertisements/SamsungAd';
-import { doc, getDoc } from 'firebase/firestore';
-import { indianTimestamp } from '../../Utils/FormatTimestamp';
+import { indianTimestamp, indianTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import XIcon from '@mui/icons-material/X';
@@ -13,67 +13,19 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import EmailIcon from '@mui/icons-material/Email';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import VideoPlayer from '../iFrame Container/VideoPlayer'
+import VideoPlayer from '../iFrame Container/VideoPlayer';
 import YoutubePlayer from '../iFrame Container/YoutubePlayer';
 import InstagramPlayer from '../iFrame Container/InstagramPlayer';
 import TagSearch from '../Tag Search/TagSearch';
 
-
 const NewsElaborate = ({ id, className, newsData }) => {
-  const {  contextLoading } = useContext(NewsContext);
-  // const [newsItem, setNewsItem] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  // const [attemptCount, setAttemptCount] = useState(0);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const newsItem = newsData
+  if (!newsData) {
+    return <div style={{ fontSize: '20px' }}><br /><br />News not found 😞<br /><br /></div>;
+  }
 
-  // useEffect(() => {
-    
-  //   const item = news.find(news => news.id === id);
-    
-  //   if (item) {
-  //     setNewsItem(item);
-  //     setLoading(false);
-  //   } else {
-  //     fetchNewsFromFirebase(id);
-  //   }
-  // }, [id, news]);
-
-  // const fetchNewsFromFirebase = async (newsId, attempts = 3) => {
-  //   setLoading(true);
-  //   let attempt = 0;
-
-  //   while (attempt < attempts) {
-  //     try {
-  //       const docRef = doc(db, 'news', newsId);
-  //       const docSnap = await getDoc(docRef);
-
-  //       if (docSnap.exists()) {
-  //         setNewsItem({ id: docSnap.id, ...docSnap.data() });
-  //         setLoading(false);
-  //         return;
-  //       } else {
-  //         console.log("No such document!");
-  //         attempt++;
-  //         setAttemptCount(attempt);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error getting document:", error);
-  //       attempt++;
-  //       setAttemptCount(attempt);
-  //     }
-
-  //     if (attempt < attempts) {
-  //       await new Promise(resolve => setTimeout(resolve, 1000));
-  //     }
-  //   }
-
-  //   if (attempt >= attempts) {
-  //     setNewsItem(null);
-  //     setLoading(false);
-  //   }
-  // };
+  const newsItem = newsData;
 
   const handleCopyLink = () => {
     const link = `${window.location.href}`;
@@ -106,22 +58,12 @@ const NewsElaborate = ({ id, className, newsData }) => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedLink}&title=${title}`, '_blank');
   };
 
-
   const handleEmailShare = () => {
     const subject = encodeURIComponent('Check out this news on Reach Malayalam!');
-    const body = encodeURIComponent(`${newsItem.title}, Click the link to read.   ${window.location.href}`);
+    const body = encodeURIComponent(`${newsItem.title}, Click the link to read. ${window.location.href}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (!newsItem && !contextLoading) {
-  //   return <div style={{ fontSize: '20px' }}><br /><br />News not found 😞<br /><br /></div>;
-  // }
-
-  // To restrict users from copying news content
   const handleCopy = (event) => {
     const selection = window.getSelection().toString().trim();
     const maxLength = 250;
@@ -132,13 +74,9 @@ const NewsElaborate = ({ id, className, newsData }) => {
 
       const truncatedText = selection.substring(0, maxLength) + promoMessage;
       const clipboardData = event.clipboardData || window.clipboardData;
-      //event.clipboardData: Modern way to access the clipboard data during the copy event.
-      //window.clipboardData: Older method for accessing clipboard data in older versions of Internet Explorer.
-
       clipboardData.setData('text/plain', truncatedText); // Set the truncated text and promo message in the clipboard
     }
   };
-
   return (
     <Box className={className} sx={{ marginTop: '.5rem' }}>
 
@@ -156,7 +94,7 @@ const NewsElaborate = ({ id, className, newsData }) => {
               </Typography>
 
               <Typography variant="caption" color='text.secondary' component="div" sx={{ marginRight: '1rem' }}>
-                {indianTimestamp(newsItem.timestamp)}
+                {indianTimestampFromMilliSeconds(newsItem.timestamp) }
               </Typography>
 
             </div>

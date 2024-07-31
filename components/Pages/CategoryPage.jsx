@@ -44,7 +44,7 @@ function CategoryPage({category, data}) {
           <MainNews category={category} cardLimit={1} className={styles.main} data={data}/>
           <NewsCard category={category} cardLimit={1} className={styles.newsCard} />
 
-          <NewsCardVertical category={category} heading={`Recent in ${capitalizedCategory}`} cardLimit={4} startIndex={1} className={styles.share}/>
+          <NewsCardVertical category={category} heading={`Recent in ${capitalizedCategory}`} cardLimit={4} startIndex={1} className={styles.share} data = {data}/>
 
           <NewsAd1 className={styles.newsAd1}/>
 

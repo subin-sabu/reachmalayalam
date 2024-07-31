@@ -4,9 +4,9 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import CategoryPage from "@/components/Pages/CategoryPage"; // Assuming you have a general component for category pages
+import CategoryPage from "@/components/Pages/CategoryPage"; 
 import pages from "@/components/Navbar/Categories";
-import { fetchCategoryNews } from "@/lib/fetchCategoryNews"; // You need to create this function
+import { fetchCategoryNews } from "@/lib/fetchCategoryNews"; 
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,6 +46,6 @@ export async function getStaticProps({ params }) {
       InitialNews,
       category,
     },
-    revalidate: 60, // Regenerate the page every 60 seconds
+    revalidate: 3600, // Regenerate the page every 3600 seconds
   };
 }

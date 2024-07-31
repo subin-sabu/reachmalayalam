@@ -21,7 +21,7 @@ import Loader from '../Loader';
 
 function Home({data}) {
 
-  console.log(`The data prop is ${ data[0].imageUrl}`)
+  // console.log(`The data prop is ${ data[0].imageUrl}`)
 
   const { contextLoading } = useContext(NewsContext);
 
@@ -37,13 +37,13 @@ function Home({data}) {
         <HomeBreadcrumbs />
         <div className={styles['grid-container']}>
 
-          <NewsCardVertical cardLimit={6} heading='Latest News' className={styles.snippet1} negativeTags={['main']} omitLimit={1} />
+          <NewsCardVertical cardLimit={6} heading='Latest News' className={styles.snippet1} negativeTags={['main']} omitLimit={1} data={data}/>
           <NewsCardSmall startIndex={0} endIndex={6} heading='Latest News' className={styles.snippet1small} negativeTags={['main']} omitLimit={1} />
 
           <MainNews className={styles.main} cardLimit={1} tags={['main']} data={data}/>
           <NewsCard className={styles.newsCard} cardLimit={1} imageType="image" tags={['main']} />
 
-          <NewsCardVertical startIndex={7} endIndex={13} heading='Must Read' className={styles.snippet2} />
+          <NewsCardVertical startIndex={7} endIndex={13} heading='Must Read' className={styles.snippet2} data={data} />
 
           <NewsCardShare className={styles.newsCardTab} startIndex={7} endIndex={13} heading={`Must Read`} />
 

@@ -1,4 +1,4 @@
-
+// components/Pages/CategoryPage.jsx
 
 import React, { useContext } from 'react'
 import NewsCardShare from '../NewsCard/NewsCardShare'

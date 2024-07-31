@@ -1,4 +1,4 @@
-"use client"
+// components/Pages/NewsManager.jsx
 
 import React, { useState, useEffect, useContext } from 'react';
 import { collection, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';

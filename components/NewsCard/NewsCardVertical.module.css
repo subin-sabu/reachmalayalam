@@ -4,7 +4,8 @@
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Number of lines you want to display */
+  -webkit-line-clamp: 3; /* Number of lines you want to display */
+  line-clamp: 3;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%; /* or a specific width; ensure it has a width set */

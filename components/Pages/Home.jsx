@@ -1,7 +1,7 @@
 // components/Pages/Home.jsx
 
 import React, { useContext } from 'react';
-import styles from "./Home.module.css"; // Import as a module
+import styles from "./HomePg.module.css"; // Import as a module
 import HomeAd1 from '../Advertisements/HomeAd1';
 import { Container, Typography, } from '@mui/material';
 import MainNews from '../MainNews/MainNews';
@@ -38,10 +38,10 @@ function Home({data}) {
         <div className={styles['grid-container']}>
 
           <NewsCardVertical cardLimit={6} heading='Latest News' className={styles.snippet1} negativeTags={['main']} omitLimit={1} data={data}/>
-          <NewsCardSmall startIndex={0} endIndex={6} heading='Latest News' className={styles.snippet1small} negativeTags={['main']} omitLimit={1} />
+          <NewsCardSmall startIndex={0} endIndex={6} heading='Latest News' className={styles.snippet1small} negativeTags={['main']} omitLimit={1} data={data} />
 
           <MainNews className={styles.main} cardLimit={1} tags={['main']} data={data}/>
-          <NewsCard className={styles.newsCard} cardLimit={1} imageType="image" tags={['main']} />
+          <NewsCard className={styles.newsCard} cardLimit={1} imageType="image" tags={['main']} data={data}/>
 
           <NewsCardVertical startIndex={7} endIndex={13} heading='Must Read' className={styles.snippet2} data={data} />
 

@@ -1,4 +1,3 @@
-"use client"
 
 import React, { useState, useEffect, useContext } from 'react';
 import { useAuth } from '../../contexts/AuthContext'
@@ -38,6 +37,9 @@ const EditForm = ({id}) => {
   const newsArray = news;
   const [newsItem, setNewsItem] = useState(null);
   const [loading1, setLoading1] = useState(true);
+  const [oldCategory, setOldCategory] = useState(null);
+
+  
 
   useEffect(() => {
     const item = newsArray.find(news => news.id === id);
@@ -176,6 +178,7 @@ const EditForm = ({id}) => {
       if (newsItem.imageUrl3) setImagePreview3(newsItem.imageUrl3);
       if (newsItem.videoUrl) setVideoPreview(newsItem.videoUrl);
       // youtube and instagram previews cannot be shown this way as YouTube and Instagram are blocking embedding their content in iframes due to their X-Frame-Options policy. This is a security feature implemented by websites to prevent clickjacking attacks, where a malicious site tries to embed another site's content in an iframe and trick users into interacting with it unknowingly.
+      setOldCategory(newsItem.category);
     }
 
   }, [newsItem]);
@@ -428,6 +431,51 @@ const EditForm = ({id}) => {
 
 
 
+  // functions to revalidate ISR pages on delete
+  const revalidateCategory = async (category) => {
+    try {
+      const response = await fetch('/api/revalidate/category', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ category }),
+      });
+      if (response.ok) {
+        alert(`${category} page updated successfully (isr)`);
+      } else {
+        alert('Failed to revalidate category page');
+      }
+    } catch (error) {
+      console.error('Error revalidating category page:', error);
+      alert('Error revalidating category page');
+    }
+  };
+
+
+const revalidateCategoryWithHome = async (category) => {
+  try {
+    const response = await fetch('/api/revalidate/category-with-home', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category }),
+    });
+    if (response.ok) {
+      alert(`${category} page and home page updated successfully (isr)`);
+    } else {
+      alert('Failed to revalidate category and home pages');
+    }
+  } catch (error) {
+    console.error('Error revalidating category and home pages:', error);
+    alert('Error revalidating category and home pages');
+  }
+};
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -540,8 +588,15 @@ const EditForm = ({id}) => {
 
     try {
       const docRef = doc(db, 'news', id);
+      const categoryChanged = oldCategory !== newsData.category;
       await updateDoc(docRef, newsData);
       setLoading(false);
+      if (categoryChanged) {
+        revalidateCategory(oldCategory);
+        revalidateCategoryWithHome(newsData.category);
+      } else {
+        revalidateCategoryWithHome(newsData.category);
+      }
       alert('News updated successfully');
       navigate('/admin/news-manager');
 

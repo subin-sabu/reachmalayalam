@@ -8,14 +8,14 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Typography, Box, Card, CardContent, CardMedia } from '@mui/material';
 import { formatTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp';
 
-function NewsCardVertical({ startIndex, endIndex, heading, className, category, cardLimit, negativeTags, omitLimit, data = [] }) {
-  const { contextLoading } = useContext(NewsContext);
+function NewsCardVertical({ startIndex, endIndex, heading, className, category, cardLimit, negativeTags, omitLimit, data = [], noTime }) {
+  const { news, contextLoading } = useContext(NewsContext);
 
   // Ensure data is an array
-  const news = Array.isArray(data) ? data : [];
+  const newsData = Array.isArray(data) && data.length ? data : news || [];
 
   // Filter news array based on category and negativeTags
-  let filteredNews = category ? news.filter(news => news.category === category) : news;
+  let filteredNews = category ? newsData.filter(news => news.category === category) : newsData;
 
   if (negativeTags && negativeTags.length > 0 && typeof omitLimit === 'number' && omitLimit >= 0) {
     let omittedCount = 0;
@@ -60,28 +60,30 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
 
           return (
             <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: 500, borderRadius: 2 }}>
+              <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Box sx={{ display: 'flex', width: '100%', textDecoration: 'none', color: 'inherit', padding: 1, flexDirection: 'row', alignItems: 'center' }}>
+                  <Box sx={{ width: '25%' }} >
+                    <CardMedia
+                      component="img"
+                      sx={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 2, aspectRatio: '1/1' }}
+                      image={news.thumbnailUrl || `/news alt images/news-small.jpg`}
+                      alt="news"
+                    />
+                  </Box>
+                  <Box sx={{
+                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '72%',
+                  }}>
+                    <Typography variant="body2" color="textSecondary" padding={0} sx={noTime && { display: 'none' }} >
+                      {TimeAgo}
+                    </Typography>
 
-              <Box sx={{ display: 'flex', width: '100%', textDecoration: 'none', color: 'inherit', padding: 1, flexDirection: 'row', alignItems: 'center' }}>
-                <CardMedia
-                  component="img"
-                  sx={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 2 }}
-                  image={news.thumbnailUrl || `/news alt images/news-small.jpg`}
-                  alt="news"
-                />
-                <Box sx={{
-                  flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px'
-                }}>
-                  <Typography variant="body2" color="textSecondary" padding={0}>
-                    {TimeAgo}
-                  </Typography>
-                  <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography variant="body" sx={{ mt: 1, wordBreak: 'break-word', fontWeight: 600, padding: '0px' }} className={styles['title-line-clamp']}>
                       {news.title}
                     </Typography>
-                  </Link>
-                </Box>
-              </Box>
 
+                  </Box>
+                </Box>
+              </Link>
             </Card>
           );
         })}

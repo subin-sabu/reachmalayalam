@@ -66,6 +66,29 @@ const NewsManager = () => {
     setAnchorEls({ ...anchorEls, [newsId]: null }); // Close menu for the specific news item
   };
 
+
+
+  // function to revalidate ISR pages on delete
+const revalidateCategoryWithHome = async (category) => {
+  try {
+    const response = await fetch('/api/revalidate/category-with-home', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category }),
+    });
+    if (response.ok) {
+      console.log('Category and home pages revalidated');
+    } else {
+      alert('Failed to revalidate category and home pages');
+    }
+  } catch (error) {
+    console.error('Error revalidating category and home pages:', error);
+    alert('Error revalidating category and home pages');
+  }
+};
+
   const deleteFiles = async (news) => {
     const promises = [];
     if (news.imageFile) {
@@ -87,6 +110,7 @@ const NewsManager = () => {
       await deleteFiles(currentNews);
       setNewsList(newsList.filter(news => news.id !== currentId));
       setSnackbar({ open: true, message: 'News successfully deleted' });
+      revalidateCategoryWithHome(currentNews.category);
     } catch (error) {
       setSnackbar({ open: true, message: error.message });
     } finally {

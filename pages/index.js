@@ -4,7 +4,8 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Home from "@/components/Pages/Home";
-import { fetchInitialNews } from "@/lib/fetchInitialNews";
+import { fetchLatestNews } from "@/lib/fetchLatestNews";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,7 @@ export default function HomePage({ InitialNews }) {
 
 // This function runs at build time and re-generates the page based on the revalidate period.
 export async function getStaticProps() {
-  const InitialNews = await fetchInitialNews();
+  const InitialNews = await fetchLatestNews(13);
   // Return the props and revalidate period
   return {
     props: {

@@ -39,7 +39,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { category } = params;
-  const InitialNews = await fetchCategoryNews(category);
+  const InitialNews = await fetchCategoryNews(category, 5);
 
   return {
     props: {

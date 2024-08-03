@@ -11,18 +11,20 @@ import { Box } from '@mui/system';
 import { useTheme } from '@emotion/react';
 import Link from 'next/link'
 import styles from './NewsCard.module.css'
-import { formatTimestamp } from '../../Utils/FormatTimestamp'
+import { formatTimestamp, formatTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 
 
 
 
-export default function NewsCard({ startIndex, endIndex, className, imageType, cardLimit, category, tags, heading, }) {
+export default function NewsCard({ startIndex, endIndex, className, imageType, cardLimit, category, tags, heading, data }) {
   const theme = useTheme();
 
   //Use context to get the news array
-  const {news, contextLoading} = useContext(NewsContext);
+  const {contextLoading} = useContext(NewsContext);
+  
+  const news = data;
   const newsArray = news;
 
   // Filter newsArray based on category if category prop is received, otherwise use all of newsArray
@@ -97,10 +99,10 @@ export default function NewsCard({ startIndex, endIndex, className, imageType, c
                     />
                     <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                       <Typography gutterBottom variant="caption" color='text.secondary' component="div" sx={{display:{xs:'none', sm: 'block'}}}>
-                        {formatTimestamp(news.timestamp)}
+                        {formatTimestampFromMilliSeconds(news.timestamp)}
                       </Typography>
 
-                      <Typography className={styles['title-line-clamp']} gutterBottom variant="body2" component="div" sx={{ mb: 1, fontWeight: '600', wordBreak: 'break-word'}}>
+                      <Typography className={styles['title-line-clamp']} gutterBottom variant="h1" component="div" sx={{ mb: 1, fontWeight: '600', wordBreak: 'break-word', fontSize:'1rem'}}>
                         {news.title}
                       </Typography>
                     </CardContent>

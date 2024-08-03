@@ -45,7 +45,7 @@ export const NewsProvider = ({ children, initialNews }) => {
       // Subscribe to real-time updates for each category
       categories.forEach(category => {
         const newsRef = collection(db, 'news');
-        const q = query(newsRef, where('category', '==', category), orderBy('timestamp', 'desc'), limit(2));
+        const q = query(newsRef, where('category', '==', category), orderBy('timestamp', 'desc'), limit(6));
 
         // Subscribe to real-time updates for the documents specified in query
         const unsubscribe = onSnapshot(q, (querySnapshot) => {

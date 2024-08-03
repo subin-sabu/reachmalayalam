@@ -1,106 +1,16 @@
-.news-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  gap: .2rem;
-  margin-top: .4rem;
-  margin-bottom: .4rem;
-  min-width: 200px;
-  max-width: 100% ;
-  align-items: center;
-  height: 100%;
-  
-}
+/* components/NewsCard/NewsCardSmall.module.css */
 
-
-
-
-
-.news-container a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.card {
-  width: 100%;
-  max-width: 500px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  border: 1px solid rgb(224, 218, 218);
-  border-radius: 8px;
-  padding: .5rem;
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-}
-
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  transform: scale(0);
-  animation: ripple 600ms linear;
-  background-color: rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-}
-
-@keyframes ripple {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-.card:hover {
-  background-color: rgb(247, 243, 243);
-}
-
-.news-card-content {
-  display: flex;
-
-}
-
-.img-div {
-  width: 20%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.img-div img {
-  object-fit: cover;
-  border-radius: 8px;
-  aspect-ratio: 1/1;
-  width: 100%;
-}
-
-
-.news-content {
-  width: 80%;
-  padding-left: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-.news-content p {
-  margin: 0px;
-  font-size: .7rem;
-  color: dimgrey;
-}
-
-@media (max-width: 600px) {
-  .news-content p {
-    display: none;
-  }
-}
-
-
-.news-content h5 {
+.title-line-clamp{
   margin: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  /* Number of lines you want to display */
+  -webkit-line-clamp: 2; /* Number of lines you want to display */
+  line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
-  /* or a specific width; ensure it has a width set */
+  width: 100%; /* or a specific width; ensure it has a width set */
 }
+
+
+
+

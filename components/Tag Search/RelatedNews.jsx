@@ -1,127 +1,97 @@
 "use client"
 
-import React, { useState, useContext, useEffect } from 'react';
-import styles from './RelatedNews.module.css';
+import React, { useContext } from 'react';
 import Link from 'next/link';
+import styles from './RelatedNews.module.css'
 import { NewsContext } from '../../contexts/NewsContext';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { Typography } from '@mui/material';
-import { formatTimestamp } from '../../Utils/FormatTimestamp';
-import Image from 'next/image';
+import { Typography, Box, Card, CardContent, CardMedia } from '@mui/material';
+import { formatTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp';
 
-function RelatedNews({ id, heading, className }) {
-  const { news, contextLoading } = useContext(NewsContext);
-  const [relatedNews, setRelatedNews] = useState([]);
-  const [ripples, setRipples] = useState({});
+function RelatedNews({ startIndex, endIndex, heading, className, category, cardLimit, negativeTags, omitLimit, data = [] }) {
+  const { contextLoading } = useContext(NewsContext);
 
-  const addRipple = (index, event) => {
-    const button = event.currentTarget.getBoundingClientRect();
-    const size = Math.max(button.width, button.height);
-    const x = event.clientX - button.left - size / 2;
-    const y = event.clientY - button.top - size / 2;
-    const newRipple = { x, y, size };
+  // Ensure data is an array
+  const news = Array.isArray(data) ? data : [];
 
-    setRipples({ ...ripples, [index]: newRipple });
-  };
+  // Filter news array based on category and negativeTags
+  let filteredNews = category ? news.filter(news => news.category === category) : news;
 
-  const removeRipple = (index) => {
-    setRipples(currentRipples => {
-      const newRipples = { ...currentRipples };
-      delete newRipples[index];
-      return newRipples;
+  if (negativeTags && negativeTags.length > 0 && typeof omitLimit === 'number' && omitLimit >= 0) {
+    let omittedCount = 0;
+    filteredNews = filteredNews.filter(news => {
+      if (Array.isArray(news.tags)) {
+        if (negativeTags.every(negTag => news.tags.some(tag => tag.toLowerCase().includes(negTag.toLowerCase())))) {
+          if (omittedCount < omitLimit) {
+            omittedCount++;
+            return false;
+          }
+        }
+      }
+      return true;
     });
-  };
+  }
 
-  useEffect(() => {
-    if (!news || contextLoading) return;
+  // Slice the filtered news based on startIndex and endIndex if provided
+  const slicedNews = filteredNews.slice(startIndex, endIndex || filteredNews.length);
 
-    // Find the reference document using the provided id
-    const referenceDoc = news.find(doc => doc.id === id);
+  // Limit the number of cards based on cardLimit
+  const limitedNews = slicedNews.slice(0, cardLimit);
 
-    // If the reference document is not found or it has no tags, set relatedNews to an empty array
-    if (!referenceDoc || !Array.isArray(referenceDoc.tags) || referenceDoc.tags.length === 0) {
-      setRelatedNews([]);
-      return;
-    }
-
-    // Filter out the "main" tag from the reference document's tags
-    const referenceTags = referenceDoc.tags.filter(tag => tag.toLowerCase() !== 'main');
-
-    // If there are no remaining tags after filtering, set relatedNews to an empty array
-    if (referenceTags.length === 0) {
-      setRelatedNews([]);
-      return;
-    }
-
-    // Find all documents that have any of the tags from the reference document, excluding the reference document itself
-    const relatedDocs = news.filter(doc => 
-      doc.id !== id && Array.isArray(doc.tags) && doc.tags.some(tag => referenceTags.includes(tag))
+  if (limitedNews.length === 0 && !contextLoading) {
+    return (
+      <Box className={className} mt={2} textAlign="center">
+        <Typography>No news found{category ? ` in the category '${category}'` : ''} 😞</Typography>
+      </Box>
     );
-
-    // Remove duplicate documents based on their id
-    const uniqueDocs = Array.from(new Set(relatedDocs.map(doc => doc.id)))
-      .map(id => relatedDocs.find(doc => doc.id === id));
-
-    // Sort the documents from latest to oldest based on the timestamp
-    uniqueDocs.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
-
-    // Limit the results to the latest 6 documents
-    setRelatedNews(uniqueDocs.slice(0, 6));
-  }, [id, news, contextLoading]);
-
-  // If there are no related news, return null and hide the component
-  if (!relatedNews.length) {
-    return <div style={{ display: 'block' }}></div>;
   }
 
   return (
-    <div className={className}>
-      <div className={styles['news-container']}>
-        {heading && (
-          <Typography gutterBottom fontSize={20} fontWeight={600} color='primary.sub' style={{ display: 'flex', justifyContent: 'flex-start', gap: '.7rem', alignSelf: 'flex-start' }}>
-            <ArrowCircleRightIcon />
-            {heading}
-          </Typography>
-        )}
-        {relatedNews.map((news, index) => {
-          const TimeAgo = formatTimestamp(news.timestamp);
+    <Box className={className} mt={2} mb={2}>
+      {heading && (
+        <Typography gutterBottom variant="h5" color="primary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <ArrowCircleRightIcon />
+          {heading}
+        </Typography>
+      )}
+      <Box>
+        {limitedNews.map((news, index) => {
+          const TimeAgo = formatTimestampFromMilliSeconds(news.timestamp);
 
           return (
-            <div key={index} className={styles.card}>
-              <Link href={`/${news.category}/${news.id}`} style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
-                <div className={styles['news-card-content']}
-                  onMouseDown={(event) => addRipple(index, event)}
-                  onMouseUp={() => removeRipple(index)}>
-                  {ripples[index] && (
-                    <span
-                      className={styles.ripple}
-                      style={{
-                        left: `${ripples[index].x}px`,
-                        top: `${ripples[index].y}px`,
-                        width: `${ripples[index].size}px`,
-                        height: `${ripples[index].size}px`,
-                        position: 'absolute',
-                        borderRadius: '50%',
-                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                        transform: 'scale(0)',
-                        animation: 'ripple 0.6s linear',
-                      }}
+            <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: 500, borderRadius: 2 }}>
+
+              <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Box sx={{ display: 'flex', width: '100%', textDecoration: 'none', color: 'inherit', padding: 1, flexDirection: 'row', alignItems: 'center' }}>
+                  <Box sx={{ width: '15%' }} >
+                    <CardMedia
+                      component="img"
+                      sx={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 2, aspectRatio: '1/1' }}
+                      image={news.thumbnailUrl || `/news alt images/news-small.jpg`}
+                      alt="news"
                     />
-                  )}
-                  <div className={styles['img-div']}>
-                    <Image src={news.thumbnailUrl || `/news alt images/news-small.jpg`} alt="news" width={50} height={50} layout='responsive' loading='lazy' />
-                  </div>
-                  <div className={styles['news-content']}>
-                    <p>{TimeAgo}</p>
-                    <h5 style={{ wordBreak: 'break-word' }}>{news.title}</h5>
-                  </div>
-                </div>
+                  </Box>
+                  <Box sx={{
+                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '72%',
+                  }}>
+                    {/* <Typography variant="body2" color="textSecondary" padding={0}>
+                    {TimeAgo}
+                  </Typography> */}
+
+                    <Typography variant="h2" sx={{ mt: 1, wordBreak: 'break-word', fontWeight: 600, padding: '0px', fontSize: '0.95rem' }} className={styles['title-line-clamp']}>
+
+                      {news.title}
+
+                    </Typography>
+
+                  </Box>
+                </Box>
               </Link>
-            </div>
+            </Card>
           );
         })}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

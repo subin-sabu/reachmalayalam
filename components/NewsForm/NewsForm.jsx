@@ -247,6 +247,33 @@ const NewsForm = () => {
     }
   };
 
+
+
+
+
+// function to revalidate ISR pages on submit
+const revalidateCategoryWithHome = async (category) => {
+  try {
+    const response = await fetch('/api/revalidate/category-with-home', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category }),
+    });
+    if (response.ok) {
+      console.log('Category and home pages revalidated');
+    } else {
+      alert('Failed to revalidate category and home pages');
+    }
+  } catch (error) {
+    console.error('Error revalidating category and home pages:', error);
+    alert('Error revalidating category and home pages');
+  }
+};
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -361,6 +388,7 @@ const NewsForm = () => {
       await setDoc(docRef, newsData);
       setLoading(false);
       alert('News uploaded successfully');
+      revalidateCategoryWithHome(newsData.category);
       setImagePreview('');
       setImagePreview1('');
       setImagePreview2('');

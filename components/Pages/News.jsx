@@ -1,6 +1,6 @@
-// components/Pages/News.jsx
+//components/Pages/News.jsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import NewsElaborate from '../NewsElaborate/NewsElaborate';
 import NewsAd1 from '../Advertisements/NewsAd1';
 import { Container, Typography, Button } from '@mui/material';
@@ -19,7 +19,6 @@ import Loader from '../Loader';
 import RelatedNews from '../Tag Search/RelatedNews';
 import { fetchRelatedNews } from '@/lib/fetchRelatedNews';
 
-
 function capitalizeFirstLetter(string) {
   if (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -31,16 +30,37 @@ function News({ newsData, category }) {
   const capitalizedCategory = capitalizeFirstLetter(category);
   const navigate = useNavigate();
 
-  const [relatedNews, setRelatedNews] = useState([])
+  const [relatedNews, setRelatedNews] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
+  const [timeSpent, setTimeSpent] = useState(0);
+  const timerRef = useRef(null);
+
   useEffect(() => {
     if (newsData && newsData.tags) {
+      // Set up timer to track time spent on the component
+      timerRef.current = setInterval(() => {
+        setTimeSpent((prev) => prev + 1);
+      }, 1000); // Increment time spent every second
+
+      return () => {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      };
+    }
+  }, [newsData]);
+
+  useEffect(() => {
+    // time spent in seconds
+    if (timeSpent >= 1 && newsData && newsData.tags && !isFetching) {
+      setIsFetching(true);
 
       // arguments: tags, id, resultsPerTag, tagLimit, newsLimit
       fetchRelatedNews(newsData.tags, newsData.id, 4, 5, 10)
         .then((data) => setRelatedNews(data))
-        .catch((error) => console.error("Failed to fetch related news", error));
+        .catch((error) => console.error("Failed to fetch related news", error))
+        .finally(() => setIsFetching(false));
     }
-  }, [newsData]);
+  }, [timeSpent, newsData, isFetching]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -73,9 +93,11 @@ function News({ newsData, category }) {
             view more in {`${capitalizedCategory}`}
           </Button>
           <HomeAd16x9 className={styles.NewsAd1} />
-          {relatedNews.length > 0 ?(
-            <RelatedNews  heading="Related Content" className={styles.related} data={relatedNews} />
-          ): <p>Loading related news...</p>}
+          {relatedNews.length > 0 ? (
+            <RelatedNews heading="Related Content" className={styles.related} data={relatedNews} />
+          ) : (
+            <p>{isFetching ? 'Fetching related news...' : 'Loading related news...'}</p>
+          )}
 
           <NewsCardSmall startIndex={0} endIndex={6} category={category} heading={`Recent in ${capitalizedCategory}`} className={styles.small}  />
           

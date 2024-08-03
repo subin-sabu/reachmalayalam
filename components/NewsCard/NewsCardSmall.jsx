@@ -62,7 +62,7 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
             <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: 500, borderRadius: 2 }}>
 
               <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Box sx={{ display: 'flex', width: '100%', textDecoration: 'none', color: 'inherit', padding: 1, flexDirection: 'row', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', width: '100%',  padding: 1, flexDirection: 'row', alignItems: 'center' }}>
                   <Box sx={{ width: '15%' }} >
                     <CardMedia
                       component="img"
@@ -72,7 +72,7 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
                     />
                   </Box>
                   <Box sx={{
-                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '72%',
+                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '85%',
                   }}>
                     {/* <Typography variant="body2" color="textSecondary" padding={0}>
                     {TimeAgo}

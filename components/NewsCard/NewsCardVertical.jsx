@@ -71,7 +71,7 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
                     />
                   </Box>
                   <Box sx={{
-                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '72%',
+                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '85%',
                   }}>
                     <Typography variant="body2" color="textSecondary" padding={0} sx={noTime && { display: 'none' }} >
                       {TimeAgo}

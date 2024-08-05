@@ -1,4 +1,4 @@
-"use client"
+// components/Tag Search/RelatedNews.jsx
 
 import React, { useContext } from 'react';
 import Link from 'next/link';
@@ -47,9 +47,9 @@ function RelatedNews({ startIndex, endIndex, heading, className, category, cardL
   }
 
   return (
-    <Box className={className} mt={2} mb={2}>
+    <Box className={className} >
       {heading && (
-        <Typography gutterBottom variant="h5" color="primary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography gutterBottom variant="h1" color="primary.sub" sx={{ display: 'flex', alignItems: 'center', gap: '0.7rem', fontWeight: 600, fontSize:'1.3rem' }}>
           <ArrowCircleRightIcon />
           {heading}
         </Typography>

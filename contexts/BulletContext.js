@@ -26,7 +26,7 @@ export const BulletProvider = ({ children }) => {
         const bulletsRef = collection(db, 'bullets');
 
         // Create a query to order news bullets by timestamp in descending order and limit to 10
-        const q = query(bulletsRef, orderBy('timestamp', 'desc'), limit(2));
+        const q = query(bulletsRef, orderBy('timestamp', 'desc'), limit(10));
 
         // Subscribe to real-time updates
         const unsubscribe = onSnapshot(q, (querySnapshot) => {

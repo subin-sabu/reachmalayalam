@@ -1,11 +1,10 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import CategoryPage from "@/components/Pages/CategoryPage";
 import pages from "@/components/Navbar/Categories";
 import { fetchCategoryNews } from "@/lib/fetchCategoryNews";
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export default function Category({ InitialNews, category }) {
   const latestNews = InitialNews[0];
@@ -94,7 +93,7 @@ export default function Category({ InitialNews, category }) {
           </script>
         ))}
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={`${styles.main} `}>
         <CategoryPage data={InitialNews} category={category} />
       </main>
     </>

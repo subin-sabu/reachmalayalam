@@ -1,12 +1,10 @@
 // pages/[category]/[id]/index.js
 
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import News from "@/components/Pages/News";
 import { fetchNewsWithID } from "@/lib/fetchNews";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export default function NewsPage({ newsData, category }) {
   // Check if newsData is not available
@@ -71,7 +69,7 @@ export default function NewsPage({ newsData, category }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={`${styles.main} `}>
         <News newsData={newsData} category={category} />
       </main>
     </>

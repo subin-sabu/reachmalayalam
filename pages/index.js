@@ -1,10 +1,8 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import Home from "@/components/Pages/Home";
 import { fetchLatestNews } from "@/lib/fetchLatestNews";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export default function HomePage({ InitialNews }) {
   const latestNews = InitialNews[0];
@@ -106,7 +104,7 @@ export default function HomePage({ InitialNews }) {
           </script>
         ))}
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={`${styles.main} `}>
         <Home data={InitialNews} />
       </main>
     </>

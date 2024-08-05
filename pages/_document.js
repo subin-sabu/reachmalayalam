@@ -6,6 +6,7 @@ import createEmotionServer from '@emotion/server/create-instance';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import createEmotionCache from '../createEmotionCache';
+import { notoSansMalayalam } from '@/styles/fonts';
 
 const theme = createTheme({
   // Customize your theme here
@@ -16,10 +17,13 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/logo192.png" />
+          <meta name="theme-color" content="#181818" />
           {/* Inject MUI styles first to match with the order */}
           {this.props.emotionStyleTags}
         </Head>
-        <body>
+        <body className={notoSansMalayalam.className}>
           <Main />
           <NextScript />
         </body>
@@ -59,3 +63,4 @@ MyDocument.getInitialProps = async (ctx) => {
     emotionStyleTags,
   };
 };
+

@@ -29,3 +29,4 @@ const pwaConfig = {
 
 // Export the combined configuration for Next.js with PWA support
 export default withPWA(pwaConfig)(nextConfig);
+

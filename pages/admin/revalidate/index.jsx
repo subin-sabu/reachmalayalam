@@ -5,6 +5,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 
 function RevalidateRoutes() {
   const [category, setCategory] = useState('');
+  const [id, setId] = useState('');
 
   const revalidateHomePage = async () => {
     try {
@@ -78,22 +79,49 @@ function RevalidateRoutes() {
     }
   };
 
+  const revalidateArticle = async () => {
+    try {
+      const response = await fetch('/api/revalidate/article', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ category, id }),
+      });
+      if (response.ok) {
+        alert('Article page revalidated');
+      } else {
+        alert('Failed to revalidate article page');
+      }
+    } catch (error) {
+      console.error('Error revalidating article page:', error);
+      alert('Error revalidating article page');
+    }
+  };
+
   return (
     <div>
-     
-        <button onClick={revalidateHomePage}>Revalidate home page</button>
-        <button onClick={revalidateAllPages}>Revalidate all pages</button>
-        <div>
-          <input 
-            type="text" 
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            placeholder="Enter category"
-          />
-          <button onClick={revalidateCategory}>Revalidate category</button>
-          <button onClick={revalidateCategoryWithHome}>Revalidate category with home</button>
-        </div>
-      
+      <button onClick={revalidateHomePage}>Revalidate home page</button>
+      <button onClick={revalidateAllPages}>Revalidate all pages</button>
+      <div>
+        <input 
+          type="text" 
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          placeholder="Enter category"
+        />
+        <button onClick={revalidateCategory}>Revalidate category</button>
+        <button onClick={revalidateCategoryWithHome}>Revalidate category with home</button>
+      </div>
+      <div>
+        <input 
+          type="text" 
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+          placeholder="Enter article ID"
+        />
+        <button onClick={revalidateArticle}>Revalidate article</button>
+      </div>
     </div>
   );
 }

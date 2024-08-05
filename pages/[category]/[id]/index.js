@@ -3,11 +3,11 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import News from "@/components/Pages/News";
+import { encodeId, decodeId } from "@/lib/idEncoding";
+import { fetchLatestNews } from "@/lib/fetchLatestNews";
 import { fetchNewsWithID } from "@/lib/fetchNews";
 
-
 export default function NewsPage({ newsData, category }) {
-  // Check if newsData is not available
   if (!newsData) {
     return <div>Article not found</div>;
   }
@@ -76,8 +76,27 @@ export default function NewsPage({ newsData, category }) {
   );
 }
 
-export async function getServerSideProps({ params }) {
-  const { id, category } = params;
+export async function getStaticPaths() {
+  const latestNews = await fetchLatestNews(3);
+  const paths = latestNews.map((news) => ({
+    params: {
+      id: encodeId(news.id),
+      category: news.category,
+    },
+  }));
+
+  console.log("Generated paths:", paths); 
+
+  return {
+    paths,
+    fallback: 'blocking', // Use 'blocking' for server-side rendering when a page is not generated at build time
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const { id: encodedId } = params;
+  const id = decodeId(encodedId);
+
   let newsData = null;
 
   try {
@@ -87,7 +106,6 @@ export async function getServerSideProps({ params }) {
     console.error(`Failed to fetch news with ID: ${id}`, error);
   }
 
-  // Check if newsData is not available
   if (!newsData) {
     return {
       notFound: true,
@@ -97,7 +115,8 @@ export async function getServerSideProps({ params }) {
   return {
     props: {
       newsData,
-      category,
+      category: newsData.category,
     },
+    revalidate: 3600, // Set ISR to 1 hour
   };
 }

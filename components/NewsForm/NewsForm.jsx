@@ -272,6 +272,14 @@ const revalidateCategoryWithHome = async (category) => {
   }
 };
 
+const makeUrlFriendly = (input) => {
+  // Define a regular expression for all non-URL-friendly characters
+  const regex = /[^a-zA-Z0-9]/g;
+  
+  // Replace all matches of the regex with a hyphen
+  return input.replace(regex, '-');
+};
+
 
 
   const handleSubmit = async (e) => {
@@ -280,6 +288,11 @@ const revalidateCategoryWithHome = async (category) => {
 
     // creating document name with a fixed time (the moment user press the submit button) to reference it in multiple places like  Firestore as document.id .
     const submitTimestamp = new Date().toISOString();
+
+    const newsId= makeUrlFriendly(submitTimestamp);
+
+
+
 
     let thumbnailUrl = null;
     let imageUrl = null;
@@ -384,7 +397,7 @@ const revalidateCategoryWithHome = async (category) => {
     };
 
     try {
-      const docRef = doc(collection(db, "news"), submitTimestamp);
+      const docRef = doc(collection(db, "news"), newsId);
       await setDoc(docRef, newsData);
       setLoading(false);
       alert('News uploaded successfully');

@@ -49,7 +49,7 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
   return (
     <Box className={className} mt={2} mb={2}>
       {heading && (
-        <Typography gutterBottom variant="h1" color="primary" sx={{ display: 'flex', alignItems: 'center', gap: '0.7rem', fontSize:'1.3rem', fontWeight: 600, }}>
+        <Typography gutterBottom variant="h2" color="primary" sx={{ display: 'flex', alignItems: 'center', gap: '0.7rem', fontSize:'1.3rem', fontWeight: 600, }}>
           <ArrowCircleRightIcon />
           {heading}
         </Typography>

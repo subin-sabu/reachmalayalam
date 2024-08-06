@@ -14,7 +14,7 @@ let Ad = '/Ad Images/banner.gif'
         alt="reach promo"
         width={970}
         height={90}
-        loading='lazy'
+        
         layout='responsive'
          />
       </Link>

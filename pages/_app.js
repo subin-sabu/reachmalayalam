@@ -8,12 +8,31 @@ import createEmotionCache from "../createEmotionCache";
 import { CacheProvider } from "@emotion/react";
 import ClientProviders from "@/providers/ClientProviders";
 import theme from "../theme";
+import { useRouter } from 'next/router';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const [loading, setLoading] = React.useState(false);
+  const router = useRouter();
+
+  React.useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleComplete = () => setLoading(false);
+
+    router.events.on('routeChangeStart', handleStart);
+    router.events.on('routeChangeComplete', handleComplete);
+    router.events.on('routeChangeError', handleComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart);
+      router.events.off('routeChangeComplete', handleComplete);
+      router.events.off('routeChangeError', handleComplete);
+    };
+  }, [router]);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -35,7 +54,7 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ClientProviders>
-          <Component {...pageProps} />
+          {loading ? <LoadingSpinner /> : <Component {...pageProps} />}
         </ClientProviders>
       </ThemeProvider>
     </CacheProvider>
@@ -47,4 +66,3 @@ MyApp.propTypes = {
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,
 };
-

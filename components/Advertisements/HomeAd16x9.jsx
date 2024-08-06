@@ -13,7 +13,7 @@ function HomeAd16x9({className}) {
       alt="home ad2 16*9"
       width={336} 
       height={280}
-      loading='lazy'
+      
       layout='responsive'
       />
       </Link>

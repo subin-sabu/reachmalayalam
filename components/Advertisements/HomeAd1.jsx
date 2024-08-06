@@ -17,7 +17,7 @@ function HomeAd1({className}) {
           width={970}
           height={90}
           layout='responsive'
-          loading='lazy'
+          
         />
    
       </Link>

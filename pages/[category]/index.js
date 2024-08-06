@@ -122,6 +122,6 @@ export async function getStaticProps({ params }) {
       InitialNews,
       category,
     },
-    revalidate: 3600, // Regenerate the page every hour
+    revalidate: 14400, // Regenerate the page every 6 hours
   };
 }

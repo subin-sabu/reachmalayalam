@@ -616,7 +616,7 @@ const makeUrlFriendly = (input) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit"
             value={formValues.imageCredit}
@@ -650,7 +650,7 @@ const makeUrlFriendly = (input) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit1"
             value={formValues.imageCredit1}
@@ -684,7 +684,7 @@ const makeUrlFriendly = (input) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit2"
             value={formValues.imageCredit2}
@@ -717,7 +717,7 @@ const makeUrlFriendly = (input) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit3"
             value={formValues.imageCredit3}
@@ -748,7 +748,7 @@ const makeUrlFriendly = (input) => {
           )}
 
           <TextField
-            label="YouTube Credit"
+            label="YouTube Credit / Description "
             variant="outlined"
             name="youtubeCredit"
             value={formValues.youtubeCredit}
@@ -778,7 +778,7 @@ const makeUrlFriendly = (input) => {
 
 
           <TextField
-            label="Instagram Credit"
+            label="Instagram Credit / Description"
             variant="outlined"
             name="instagramCredit"
             value={formValues.instagramCredit}
@@ -809,7 +809,7 @@ const makeUrlFriendly = (input) => {
 
           </FormControl>
           <TextField
-            label="Video Credit"
+            label="Video Credit / Description"
             variant="outlined"
             name="videoCredit"
             value={formValues.videoCredit}

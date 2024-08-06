@@ -431,7 +431,7 @@ const EditForm = ({id}) => {
 
 
 
-  // functions to revalidate ISR pages on delete
+  // functions to revalidate ISR pages on delete or edit
   const revalidateCategory = async (category) => {
     try {
       const response = await fetch('/api/revalidate/category', {
@@ -470,6 +470,26 @@ const revalidateCategoryWithHome = async (category) => {
   } catch (error) {
     console.error('Error revalidating category and home pages:', error);
     alert('Error revalidating category and home pages');
+  }
+};
+
+const revalidateArticle = async (category, id) => {
+  try {
+    const response = await fetch('/api/revalidate/article', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category, id }),
+    });
+    if (response.ok) {
+      alert(`Article page for /${category}/${id} revalidated successfully`);
+    } else {
+      alert('Failed to revalidate article page');
+    }
+  } catch (error) {
+    console.error('Error revalidating article page:', error);
+    alert('Error revalidating article page');
   }
 };
 
@@ -594,8 +614,10 @@ const revalidateCategoryWithHome = async (category) => {
       if (categoryChanged) {
         revalidateCategory(oldCategory);
         revalidateCategoryWithHome(newsData.category);
+        revalidateArticle(newsData.category, id);
       } else {
         revalidateCategoryWithHome(newsData.category);
+        revalidateArticle(newsData.category, id);
       }
       alert('News updated successfully');
       navigate('/admin/news-manager');
@@ -778,7 +800,7 @@ const revalidateCategoryWithHome = async (category) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit"
             value={formValues.imageCredit}
@@ -812,7 +834,7 @@ const revalidateCategoryWithHome = async (category) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit1"
             value={formValues.imageCredit1}
@@ -846,7 +868,7 @@ const revalidateCategoryWithHome = async (category) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit2"
             value={formValues.imageCredit2}
@@ -879,7 +901,7 @@ const revalidateCategoryWithHome = async (category) => {
 
           </FormControl>
           <TextField
-            label="Image Credit"
+            label="Image Credit / Description"
             variant="outlined"
             name="imageCredit3"
             value={formValues.imageCredit3}
@@ -907,7 +929,7 @@ const revalidateCategoryWithHome = async (category) => {
           )}
 
           <TextField
-            label="YouTube Credit"
+            label="YouTube Credit / Description"
             variant="outlined"
             name="youtubeCredit"
             value={formValues.youtubeCredit}
@@ -937,7 +959,7 @@ const revalidateCategoryWithHome = async (category) => {
 
 
           <TextField
-            label="Instagram Credit"
+            label="Instagram Credit / Description"
             variant="outlined"
             name="instagramCredit"
             value={formValues.instagramCredit}
@@ -968,7 +990,7 @@ const revalidateCategoryWithHome = async (category) => {
 
           </FormControl>
           <TextField
-            label="Video Credit"
+            label="Video Credit / Description"
             variant="outlined"
             name="videoCredit"
             value={formValues.videoCredit}

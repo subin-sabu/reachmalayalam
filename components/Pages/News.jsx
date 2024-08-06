@@ -32,26 +32,9 @@ function News({ newsData, category }) {
 
   const [relatedNews, setRelatedNews] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-  const [timeSpent, setTimeSpent] = useState(0);
-  const timerRef = useRef(null);
 
   useEffect(() => {
     if (newsData && newsData.tags) {
-      // Set up timer to track time spent on the component
-      timerRef.current = setInterval(() => {
-        setTimeSpent((prev) => prev + 1);
-      }, 1000); // Increment time spent every second
-
-      return () => {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      };
-    }
-  }, [newsData]);
-
-  useEffect(() => {
-    // time spent in seconds
-    if (timeSpent >= 1 && newsData && newsData.tags && !isFetching) {
       setIsFetching(true);
 
       // arguments: tags, id, resultsPerTag, tagLimit, newsLimit
@@ -60,7 +43,7 @@ function News({ newsData, category }) {
         .catch((error) => console.error("Failed to fetch related news", error))
         .finally(() => setIsFetching(false));
     }
-  }, [timeSpent, newsData, isFetching]);
+  }, [newsData]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -96,11 +79,9 @@ function News({ newsData, category }) {
           {relatedNews.length > 0 ? (
             <RelatedNews heading="Related Content" className={styles.related} data={relatedNews} />
           ) : (
-            <p>{isFetching ? 'Fetching related news...' : 'Loading related news...'}</p>
+            <p>Loading related news...</p>
           )}
-
-          <NewsCardSmall startIndex={0} endIndex={6} category={category} heading={`Recent in ${capitalizedCategory}`} className={styles.small}  />
-          
+          <NewsCardSmall startIndex={0} endIndex={6} category={category} heading={`Recent in ${capitalizedCategory}`} className={styles.small} />
           <NewsCardVertical
             startIndex={0}
             endIndex={15}
@@ -108,7 +89,6 @@ function News({ newsData, category }) {
             className={styles.p2kl}
             noTime={true}
           />
-
           <NewsCardShare startIndex={0} cardLimit={14} heading="Latest News" className={styles.p2cardklsmall} />
           <Typography className={styles.h1scroll} fontSize={20} fontWeight={600} color="primary.sub" sx={{ display: 'flex', justifyContent: 'flex-start', gap: '.7rem', alignSelf: 'flex-start', marginTop: '1.5rem' }}>
             <ArrowCircleRightIcon />{`In News for a while now..`}

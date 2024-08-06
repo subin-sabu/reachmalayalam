@@ -117,6 +117,6 @@ export async function getStaticProps({ params }) {
       newsData,
       category: newsData.category,
     },
-    revalidate: 3600, // Set ISR to 1 hour
+    revalidate: 43200, // Set ISR to 12 hours
   };
 }

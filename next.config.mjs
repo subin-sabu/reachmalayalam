@@ -17,6 +17,19 @@ const nextConfig = {
       },
     ],
   },
+  // Add rewrites configuration to handle sitemap URLs
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/api/sitemap.xml', // Redirect to the API route for sitemap
+      },
+      {
+        source: '/sitemap-articles.xml',
+        destination: '/api/sitemap-articles.xml', // Redirect to the API route for article sitemap
+      },
+    ];
+  },
 };
 
 // Configuration object tells the next-pwa plugin
@@ -29,4 +42,3 @@ const pwaConfig = {
 
 // Export the combined configuration for Next.js with PWA support
 export default withPWA(pwaConfig)(nextConfig);
-

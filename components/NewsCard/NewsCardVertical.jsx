@@ -73,9 +73,9 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
                   <Box sx={{
                     flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '85%',
                   }}>
-                    <Typography variant="body2" color="textSecondary" padding={0} sx={noTime && { display: 'none' }} >
+                    {/* <Typography variant="body2" color="textSecondary" padding={0} sx={noTime && { display: 'none' }} >
                       {TimeAgo}
-                    </Typography>
+                    </Typography> */}
 
                     <Typography variant="body" sx={{ mt: 1, wordBreak: 'break-word', fontWeight: 600, padding: '0px' }} className={styles['title-line-clamp']}>
                       {news.title}

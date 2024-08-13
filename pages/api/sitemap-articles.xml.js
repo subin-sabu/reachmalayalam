@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const baseUrl = "https://www.reachmalayalam.com";
   
   // Fetch the latest 20 news articles
-  const latestArticles = await fetchLatestNews(600);
+  const latestArticles = await fetchLatestNews(500);
 
   // Generate XML
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

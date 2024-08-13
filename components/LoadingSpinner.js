@@ -11,6 +11,7 @@ const LoadingSpinner = () => {
         alignItems: 'start',
         height: '100vh',
         marginTop:'15vh',
+        marginBottom:'50vh',
       }}
     >
       <CircularProgress />

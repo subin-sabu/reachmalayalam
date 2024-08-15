@@ -1,4 +1,5 @@
-"uses client"
+// components/NewsCard/NewsCardShare.jsx
+
 
 import React, { useContext } from 'react';
 import { NewsContext } from '../../contexts/NewsContext';

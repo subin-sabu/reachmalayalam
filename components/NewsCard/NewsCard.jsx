@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useContext } from 'react';
-import { NewsContext } from '../../contexts/NewsContext'; 
+import { NewsContext } from '../../contexts/NewsContext';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -13,6 +13,7 @@ import Link from 'next/link'
 import styles from './NewsCard.module.css'
 import { formatTimestamp, formatTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp'
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import Image from 'next/image';
 
 
 
@@ -22,8 +23,8 @@ export default function NewsCard({ startIndex, endIndex, className, imageType, c
   const theme = useTheme();
 
   //Use context to get the news array
-  const {contextLoading} = useContext(NewsContext);
-  
+  const { contextLoading } = useContext(NewsContext);
+
   const news = data;
   const newsArray = news;
 
@@ -91,18 +92,23 @@ export default function NewsCard({ startIndex, endIndex, className, imageType, c
                   height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'
                 }}>
                   <CardActionArea sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={ imageUrl || `/news alt images/news.jpg` }
-                      alt={news.title}
-                    />
-                    <CardContent sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <Typography gutterBottom variant="caption" color='text.secondary' component="div" sx={{display:{xs:'none', sm: 'block'}}}>
+                    <Box sx={{ width: '100%', position: 'relative', height: { xs: 160, md: 200 } }}> {/* Ensures image is responsive */}
+
+                      <Image
+                        src={news.imageUrl || `/news alt images/news.jpg`}
+                        alt="news image"
+                        fill
+                        style={{ objectFit: 'cover' }} // Ensures the image covers the area without distortion
+                        sizes="(max-width: 500px) 500px, 820px" // Adjust as per your layout
+                        priority // Optional: Makes sure important images are loaded first
+                      />
+                    </Box>
+                    <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <Typography gutterBottom variant="caption" color='text.secondary' component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {formatTimestampFromMilliSeconds(news.timestamp)}
                       </Typography>
 
-                      <Typography className={styles['title-line-clamp']} gutterBottom variant="h1" component="div" sx={{ mb: 1, fontWeight: '600', wordBreak: 'break-word', fontSize:'1rem'}}>
+                      <Typography className={styles['title-line-clamp']} gutterBottom variant="h1" component="div" sx={{ mb: 1, fontWeight: '600', wordBreak: 'break-word', fontSize: '1rem' }}>
                         {news.title}
                       </Typography>
                     </CardContent>

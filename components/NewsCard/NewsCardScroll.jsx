@@ -1,3 +1,5 @@
+// components/NewsCard/NewsCardScroll.jsx
+
 "use client"
 
 import React , {useContext} from 'react';

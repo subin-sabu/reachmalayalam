@@ -28,6 +28,10 @@ const nextConfig = {
         source: '/sitemap-articles.xml',
         destination: '/api/sitemap-articles.xml', // Redirect to the API route for article sitemap
       },
+      {
+        source: '/sitemap-latest-articles.xml',
+        destination: '/api/sitemap-latest-articles.xml', // Redirect to the API route for article sitemap
+      },
     ];
   },
 };

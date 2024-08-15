@@ -1,3 +1,5 @@
+// components/NewsCard/NewsCardVertical.jsx
+
 "use client"
 
 import React, { useContext } from 'react';
@@ -5,7 +7,8 @@ import Link from 'next/link';
 import styles from './NewsCardVertical.module.css'
 import { NewsContext } from '../../contexts/NewsContext';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { Typography, Box, Card, CardContent, CardMedia } from '@mui/material';
+import { Typography, Box, Card } from '@mui/material';
+import Image from 'next/image';
 import { formatTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp';
 
 function NewsCardVertical({ startIndex, endIndex, heading, className, category, cardLimit, negativeTags, omitLimit, data = [], noTime }) {
@@ -62,16 +65,16 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
             <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: 500, borderRadius: 2 }}>
               <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
                 <Box sx={{ display: 'flex', width: '100%', textDecoration: 'none', color: 'inherit', padding: 1, flexDirection: 'row', alignItems: 'center' }}>
-                  <Box sx={{ width: '25%' }} >
-                    <CardMedia
-                      component="img"
-                      sx={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 2, aspectRatio: '1/1' }}
-                      image={news.thumbnailUrl || `/news alt images/news-small.jpg`}
+                  <Box sx={{ width: '25%', position: 'relative', height: 0, paddingBottom: '25%' }}>
+                    <Image
+                      src={news.thumbnailUrl || `/news alt images/news-small.jpg`}
                       alt="news"
+                      fill
+                      style={{ borderRadius: '8px', objectFit:'cover' }}
                     />
                   </Box>
                   <Box sx={{
-                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '85%',
+                    flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '75%',
                   }}>
                     {/* <Typography variant="body2" color="textSecondary" padding={0} sx={noTime && { display: 'none' }} >
                       {TimeAgo}

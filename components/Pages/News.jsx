@@ -79,7 +79,7 @@ function News({ newsData, category }) {
           {relatedNews.length > 0 ? (
             <RelatedNews heading="Related Content" className={styles.related} data={relatedNews} />
           ) : (
-            <p>Loading related news...</p>
+            <p></p>
           )}
           <NewsCardSmall startIndex={0} endIndex={6} category={category} heading={`Recent in ${capitalizedCategory}`} className={styles.small} />
           <NewsCardVertical

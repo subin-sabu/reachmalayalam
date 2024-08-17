@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { Paper, CardContent, Typography, Box, CardMedia, IconButton, Link as MuiLink } from '@mui/material';
 import HomeAd1 from '../Advertisements/SamsungAd';
-import { indianTimestamp, indianTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp';
+import { dateTimeFromMilliSeconds, indianTimestamp, indianTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import XIcon from '@mui/icons-material/X';
@@ -17,6 +17,7 @@ import VideoPlayer from '../iFrame Container/VideoPlayer';
 import YoutubePlayer from '../iFrame Container/YoutubePlayer';
 import InstagramPlayer from '../iFrame Container/InstagramPlayer';
 import TagSearch from '../Tag Search/TagSearch';
+import Image from 'next/image';
 
 const NewsElaborate = ({ id, className, newsData }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -94,7 +95,7 @@ const NewsElaborate = ({ id, className, newsData }) => {
               </Typography>
 
               <Typography variant="caption" color='text.secondary' component="div" sx={{ marginRight: '1rem' }}>
-                {indianTimestampFromMilliSeconds(newsItem.timestamp) }
+                {dateTimeFromMilliSeconds(newsItem.timestamp) }
               </Typography>
 
             </div>
@@ -102,11 +103,12 @@ const NewsElaborate = ({ id, className, newsData }) => {
         </CardContent>
 
         {newsItem.imageUrl &&
-          <CardMedia sx={{ width: '100%', maxWidth: '100%' }}
-            component="img"
-            height="auto"
-            image={newsItem.imageUrl}
-            alt="news image"
+          <Image
+          src={newsItem.imageUrl}
+          width={820}
+          height={600}
+          layout='responsive'
+          alt='main image of news'
           />}
 
         {newsItem.imageCredit && (
@@ -133,11 +135,12 @@ const NewsElaborate = ({ id, className, newsData }) => {
 
         {/* image 2 */}
         {newsItem.imageUrl1 &&
-          <CardMedia sx={{ width: '100%', maxWidth: '100%', paddingTop: '0.8rem' }}
-            component="img"
-            height="auto"
-            image={newsItem.imageUrl1}
-            alt="news image"
+          <Image
+          src={newsItem.imageUrl1}
+          width={820}
+          height={600}
+          layout='responsive'
+          alt=' image 2 of news'
           />}
         {newsItem.imageCredit1 && (
           <Box p={2} pb={0} pt={1}>
@@ -165,13 +168,14 @@ const NewsElaborate = ({ id, className, newsData }) => {
 
 
         <HomeAd1 />
-
+        {/* image 3 */}
         {newsItem.imageUrl2 &&
-          <CardMedia sx={{ width: '100%', maxWidth: '100%' }}
-            component="img"
-            height="auto"
-            image={newsItem.imageUrl2}
-            alt="news image"
+          <Image
+          src={newsItem.imageUrl2}
+          width={820}
+          height={600}
+          layout='responsive'
+          alt=' image 3 of news'
           />}
         {newsItem.imageCredit2 && (
           <Box p={2} pb={1} pt={1} >
@@ -196,13 +200,14 @@ const NewsElaborate = ({ id, className, newsData }) => {
               </Typography>}
           </CardContent>
         }
-
+          {/* image 4 */}
         {newsItem.imageUrl3 &&
-          <CardMedia sx={{ width: '100%', maxWidth: '100%', paddingTop: '0.8rem' }}
-            component="img"
-            height="auto"
-            image={newsItem.imageUrl3}
-            alt="news image"
+          <Image
+          src={newsItem.imageUrl3}
+          width={820}
+          height={600}
+          layout='responsive'
+          alt=' image 4 of news'
           />}
         {newsItem.imageCredit3 && (
           <Box p={2} pb={1} pt={1} >
@@ -291,9 +296,9 @@ const NewsElaborate = ({ id, className, newsData }) => {
             )}
           </CardContent>
         }
-        
+
         {/* Keyword Search links */}
-        <TagSearch tags={newsItem.tags}/>
+        <TagSearch tags={newsItem.tags} />
 
         {/* social button box */}
         <Box sx={{ display: 'flex', justifyContent: 'space-around', padding: '1rem 0' }}>

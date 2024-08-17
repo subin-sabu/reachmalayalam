@@ -17,6 +17,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { styled } from '@mui/material/styles';
 import styles from './NewsCard.module.css'
 import { formatTimestamp } from '../../Utils/FormatTimestamp';
+import Image from 'next/image';
 
 
 
@@ -110,7 +111,15 @@ export default function NewsCardScroll({ startIndex, endIndex, className }) {
             <Link href={`/${news.category}/${news.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <CardActionArea sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <CardMedia component="img" height="140" image={news.thumbnailUrl || `/news alt images/news-small.jpg`} alt="news image" />
+                  
+                <Box sx={{ width: '100%', position: 'relative', height: { xs: 130, md: 130 } }}> {/* Ensures image is responsive */}
+                    <Image
+                      src={news.thumbnailUrl || `/news alt images/news.jpg`}
+                      alt="news image"
+                      fill
+                      style={{ objectFit: 'cover' }} // Ensures the image covers the area without distortion
+                    />
+                  </Box>
                   <CardContent sx={{width:'88%'}}>
                     <Typography gutterBottom variant="caption" color="text.secondary" sx={{display:{xs:'none', sm: 'block'}}}>
                     {formatTimestamp(news.timestamp)}

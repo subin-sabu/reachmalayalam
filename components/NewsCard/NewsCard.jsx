@@ -93,7 +93,6 @@ export default function NewsCard({ startIndex, endIndex, className, imageType, c
                 }}>
                   <CardActionArea sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <Box sx={{ width: '100%', position: 'relative', height: { xs: 160, md: 200 } }}> {/* Ensures image is responsive */}
-
                       <Image
                         src={news.imageUrl || `/news alt images/news.jpg`}
                         alt="news image"

@@ -7,6 +7,7 @@ import { NewsContext } from '../../contexts/NewsContext';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Typography, Box, Card, CardContent, CardMedia } from '@mui/material';
 import { formatTimestampFromMilliSeconds } from '../../Utils/FormatTimestamp';
+import Image from 'next/image';
 
 function RelatedNews({ startIndex, endIndex, heading, className, category, cardLimit, negativeTags, omitLimit, data = [] }) {
   const { contextLoading } = useContext(NewsContext);
@@ -64,12 +65,14 @@ function RelatedNews({ startIndex, endIndex, heading, className, category, cardL
               <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
                 <Box sx={{ display: 'flex', width: '100%', textDecoration: 'none', color: 'inherit', padding: 1, flexDirection: 'row', alignItems: 'center' }}>
                   <Box sx={{ width: '15%' }} >
-                    <CardMedia
-                      component="img"
-                      sx={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: 2, aspectRatio: '1/1' }}
-                      image={news.thumbnailUrl || `/news alt images/news-small.jpg`}
-                      alt="news"
-                    />
+                  <Box sx={{ width: '100%', height: 0, paddingBottom: '100%', position: 'relative' }}>
+                      <Image
+                        src={news.thumbnailUrl || `/news alt images/news-small.jpg`}
+                        alt="news"
+                        fill
+                        style={{ borderRadius: '8px', objectFit: 'cover' }}
+                      />
+                    </Box>
                   </Box>
                   <Box sx={{
                     flex: 'row', paddingLeft: '10px', paddingRight: '6px', paddingTop: '5px', paddingBottom: '5px', width: '85%',

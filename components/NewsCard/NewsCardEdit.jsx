@@ -7,6 +7,7 @@ import styles from './NewsCardShare.module.css';
 import Link from 'next/link';
 import { formatTimestamp } from '../../Utils/FormatTimestamp';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import Image from 'next/image';
 
 
 const NewsCardEdit = ({ category, cardLimit, startIndex, endIndex, className, heading }) => {
@@ -53,12 +54,14 @@ const NewsCardEdit = ({ category, cardLimit, startIndex, endIndex, className, he
                 <Link href={`/${item.category}/${item.id}`} style={{ textDecoration: 'none', color: 'inherit', display:'block', height:'100%' }}>
                   <Card sx={{ maxWidth: '220px', marginBottom:'10px', height:'95%'}}>
                     {/* Render news card content */}
-                    <CardMedia
-                      component="img"
-                      height="100"
-                      image={item.thumbnailUrl || `/news alt images/news-small.jpg`}
-                      alt={item.title}
+                    <Box sx={{ width: '100%', position: 'relative', height: 120 }}> {/* Ensures image is responsive */}
+                      <Image
+                      src={item.thumbnailUrl || `/news alt images/news.jpg`}
+                      alt={item.title || `news`}
+                      fill
+                      style={{ objectFit: 'cover' }} // Ensures the image covers the area without distortion
                     />
+                  </Box>
                     <CardContent>
                       <Typography variant='caption' component='div' gutterBottom sx={{display:{xs:'none', sm: 'block'}}}>
                         {TimeAgo}

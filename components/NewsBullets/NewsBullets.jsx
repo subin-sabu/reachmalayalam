@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useContext } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Link, Tooltip, Button } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Link, Tooltip, Button, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import styles from './NewsBullets.module.css';
@@ -54,7 +54,15 @@ const NewsBullets = ({ className, heading, startIndex, endIndex, cardLimit }) =>
         <Accordion className={className} key={index} expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} title={news.title} sx={{ paddingLeft: '0.3rem', paddingRight: '0.1rem' }} >
             <div className={styles['img-div']}>
-              <Image src={news.imageUrl || `/news alt images/news-small.jpg`} alt="news" width={80} height={80} layout='responsive' loading='lazy'/>
+              
+            <Box sx={{ width: '100%', height: 0, paddingBottom: '100%', position: 'relative' }}>
+                      <Image
+                        src={news.imageUrl || `/news alt images/news-small.jpg`}
+                        alt="news"
+                        fill
+                        style={{ borderRadius: '8px', objectFit: 'cover' }}
+                      />
+                    </Box>
             </div>
             <div className={styles['news-content']}>
              <p style={{wordBreak:'break-word'}}>

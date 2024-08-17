@@ -6,19 +6,20 @@ import CategoryPage from "@/components/Pages/CategoryPage";
 import pages from "@/components/Navbar/Categories";
 import { fetchCategoryNews } from "@/lib/fetchCategoryNews";
 
-
-
 export default function Category({ InitialNews, category }) {
   const latestNews = InitialNews[0];
 
   return (
     <>
       <Head>
+        {/* Page title */}
         <title>{category} - Reach Malayalam</title>
+
+        {/* Meta description */}
         <meta name="description" content={`Get the latest ${category} news at reachmalayalam.com. Stay informed with breaking news, in-depth analysis, and exclusive reports.`} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        
+
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`${category} - Reach Malayalam`} />
@@ -26,14 +27,15 @@ export default function Category({ InitialNews, category }) {
         <meta property="og:url" content={`https://www.reachmalayalam.com/${category}`} />
         <meta property="og:image" content={latestNews?.imageUrl || `https://reachmalayalam.com/logo512.png`} />
         <meta property="og:image:alt" content={latestNews?.title || "Reach Malayalam"} />
-        
+        <meta property="og:site_name" content="Reach Malayalam" />
+
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${category} - Reach Malayalam`} />
         <meta name="twitter:description" content={`Get the latest ${category} news at reachmalayalam.com. Stay informed with breaking news, in-depth analysis, and exclusive reports.`} />
         <meta name="twitter:image" content={latestNews?.imageUrl || `https://reachmalayalam.com/logo512.png`} />
         <meta name="twitter:image:alt" content={latestNews?.title || "Reach Malayalam"} />
-
+        
         {/* Canonical URL */}
         <link rel="canonical" href={`https://www.reachmalayalam.com/${category}`} />
 
@@ -95,6 +97,8 @@ export default function Category({ InitialNews, category }) {
           </script>
         ))}
       </Head>
+
+      {/* Main content */}
       <main className={`${styles.main} `}>
         <CategoryPage data={InitialNews} category={category} />
       </main>
@@ -102,6 +106,7 @@ export default function Category({ InitialNews, category }) {
   );
 }
 
+// Define static paths for each category
 export async function getStaticPaths() {
   const paths = pages.slice(1).map(page => ({
     params: { category: page.english }
@@ -113,6 +118,7 @@ export async function getStaticPaths() {
   };
 }
 
+// Fetch news data and define static props for each category page
 export async function getStaticProps({ params }) {
   const { category } = params;
   const InitialNews = await fetchCategoryNews(category, 6);

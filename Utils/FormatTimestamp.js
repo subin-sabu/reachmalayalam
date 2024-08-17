@@ -136,3 +136,34 @@ export function formatTimestampFromMilliSeconds(timestamp) {
     return `${Math.floor(differenceInDays)} day${Math.floor(differenceInDays) === 1 ? '' : 's'} ago`;
   }
 }
+
+// export No : 5
+// 5.  DATE- TIME WHEN INPUT IS IN MILLI-SECONDS
+
+export function dateTimeFromMilliSeconds(timestamp) {
+  // Convert milliseconds timestamp directly to JavaScript Date
+  const date = new Date(timestamp);
+
+  // Array of month names
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  // Get individual components of the date
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const secondsStr = String(date.getSeconds()).padStart(2, '0');
+
+  // Determine AM/PM
+  const ampm = hours >= 12 ? 'pm' : 'am';
+  const formattedHours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+
+  // Format the date and time string
+  const formattedDate = `${day} ${month} ${year}, ${formattedHours}:${minutes} ${ampm}`;
+
+  return formattedDate;
+}

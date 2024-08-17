@@ -15,8 +15,8 @@ import {
   MenuItem,
   Container,
 } from '@mui/material';
-import {  doc,  getDoc, updateDoc } from 'firebase/firestore';
-import {  ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { db, storage } from '../../lib/firebase'; //  db is initialized in this config file
 import Resizer from 'react-image-file-resizer';
 import { NewsContext } from '../../contexts/NewsContext';
@@ -25,21 +25,21 @@ import Image from 'next/image';
 const uuidv4 = require('uuid').v4; // Import uuidv4 library
 
 
-const EditForm = ({id}) => {
+const EditForm = ({ id }) => {
 
   // Scrolls to the top of the page when the component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
   //States for Fetching data with id
-  
-  const {news} = useContext(NewsContext);
+
+  const { news } = useContext(NewsContext);
   const newsArray = news;
   const [newsItem, setNewsItem] = useState(null);
   const [loading1, setLoading1] = useState(true);
   const [oldCategory, setOldCategory] = useState(null);
 
-  
+
 
   useEffect(() => {
     const item = newsArray.find(news => news.id === id);
@@ -73,7 +73,10 @@ const EditForm = ({id}) => {
     title: '',
     category: '',
     reporterName: '',
+    authorNameEnglish: '',
+    summary: '',
     tags: '',
+    keywords: '',
     imageFile: null,
     imageUrl: '',
     imagePath: '',
@@ -132,7 +135,10 @@ const EditForm = ({id}) => {
         title: newsItem.title || '',
         category: newsItem.category || '',
         reporterName: newsItem.reporterName || '',
+        authorNameEnglish: newsItem.authorNameEnglish || '',
+        summary: newsItem.summary || '',
         tags: Array.isArray(newsItem.tags) ? newsItem.tags.join(', ') : newsItem.tags || '',
+        keywords: Array.isArray(newsItem.keywords) ? newsItem.keywords.join(', ') : newsItem.keywords || '',
         imageFile: null,
         imageUrl: newsItem.imageUrl || '',
         imagePath: newsItem.imagePath || '',
@@ -453,45 +459,45 @@ const EditForm = ({id}) => {
   };
 
 
-const revalidateCategoryWithHome = async (category) => {
-  try {
-    const response = await fetch('/api/revalidate/category-with-home', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ category }),
-    });
-    if (response.ok) {
-      alert(`${category} page and home page updated successfully (isr)`);
-    } else {
-      alert('Failed to revalidate category and home pages');
+  const revalidateCategoryWithHome = async (category) => {
+    try {
+      const response = await fetch('/api/revalidate/category-with-home', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ category }),
+      });
+      if (response.ok) {
+        alert(`${category} page and home page updated successfully (isr)`);
+      } else {
+        alert('Failed to revalidate category and home pages');
+      }
+    } catch (error) {
+      console.error('Error revalidating category and home pages:', error);
+      alert('Error revalidating category and home pages');
     }
-  } catch (error) {
-    console.error('Error revalidating category and home pages:', error);
-    alert('Error revalidating category and home pages');
-  }
-};
+  };
 
-const revalidateArticle = async (category, id) => {
-  try {
-    const response = await fetch('/api/revalidate/article', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ category, id }),
-    });
-    if (response.ok) {
-      alert(`Article page for /${category}/${id} revalidated successfully`);
-    } else {
-      alert('Failed to revalidate article page');
+  const revalidateArticle = async (category, id) => {
+    try {
+      const response = await fetch('/api/revalidate/article', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ category, id }),
+      });
+      if (response.ok) {
+        alert(`Article page for /${category}/${id} revalidated successfully`);
+      } else {
+        alert('Failed to revalidate article page');
+      }
+    } catch (error) {
+      console.error('Error revalidating article page:', error);
+      alert('Error revalidating article page');
     }
-  } catch (error) {
-    console.error('Error revalidating article page:', error);
-    alert('Error revalidating article page');
-  }
-};
+  };
 
 
 
@@ -581,9 +587,12 @@ const revalidateArticle = async (category, id) => {
       timestamp: newsItem.timestamp,
       reporterEmail: newsItem.reporterEmail,
       tags: formValues.tags ? formValues.tags.split(',').map(tag => tag.trim()) : [],
+      keywords: formValues.keywords ? formValues.keywords.split(',').map(keyword => keyword.trim()) : [],
       title: formValues.title || null,
       category: formValues.category || null,
       reporterName: formValues.reporterName || null,
+      authorNameEnglish: formValues.authorNameEnglish || null,
+      summary: formValues.summary || null,
       imageCredit: formValues.imageCredit || null,
       imageCredit1: formValues.imageCredit1 || null,
       imageCredit2: formValues.imageCredit2 || null,
@@ -712,7 +721,29 @@ const revalidateArticle = async (category, id) => {
             margin="normal"
           />
 
-          <Typography variant="subtitle1" component="div" sx={{ color: 'info.main' }}> ↓  Add &apos;<span style={{color: 'red'}} >main</span>&apos; tag to display as main news</Typography>
+          <TextField
+            label="Author Name in English"
+            variant="outlined"
+            name="authorNameEnglish"
+            value={formValues.authorNameEnglish}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+
+          <TextField
+            label="Short summary of news (English)"
+            variant="outlined"
+            name="summary"
+            value={formValues.summary}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            multiline
+            rows={3}
+          />
+
+          <Typography variant="subtitle1" component="div" sx={{ color: 'info.main' }}> ↓  Add &apos;<span style={{ color: 'red' }} >main</span>&apos; tag to display as main news</Typography>
 
 
           <TextField
@@ -720,6 +751,16 @@ const revalidateArticle = async (category, id) => {
             variant="outlined"
             name="tags"
             value={formValues.tags}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+
+          <TextField
+            label="Keywords (comma separated)"
+            variant="outlined"
+            name="keywords"
+            value={formValues.keywords}
             onChange={handleChange}
             fullWidth
             margin="normal"
@@ -784,7 +825,7 @@ const revalidateArticle = async (category, id) => {
               {imagePreview && (
                 <>
                   <Image src={imagePreview} alt="Preview" width={100} height={100} layout='responsive'
-                  style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
+                    style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
                   <Typography variant="body2">{formValues.imageFile && formValues.imageFile.name}</Typography>
                   <Button variant="contained" color="warning" onClick={() => handleCancel('imageUrl')} style={{ marginTop: '10px', marginBottom: '10px' }}>
                     Cancel Upload

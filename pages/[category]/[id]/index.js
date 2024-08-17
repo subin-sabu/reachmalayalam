@@ -77,7 +77,7 @@ export default function NewsPage({ newsData, category }) {
 }
 
 export async function getStaticPaths() {
-  const latestNews = await fetchLatestNews(3);
+  const latestNews = await fetchLatestNews(10);
   const paths = latestNews.map((news) => ({
     params: {
       id: encodeId(news.id),

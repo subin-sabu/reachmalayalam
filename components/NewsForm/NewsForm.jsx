@@ -41,7 +41,9 @@ const NewsForm = () => {
     title: '',
     category: '',
     reporterName: '',
+    authorNameEnglish: '',
     tags: '',
+    keywords: '',
     imageFile: null,
     imageUrl: '',
     imageCredit: '',
@@ -72,7 +74,7 @@ const NewsForm = () => {
     description5: '',
     heading5: '',
     link: '',
-
+    summary: '',
   });
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState('');
@@ -251,34 +253,34 @@ const NewsForm = () => {
 
 
 
-// function to revalidate ISR pages on submit
-const revalidateCategoryWithHome = async (category) => {
-  try {
-    const response = await fetch('/api/revalidate/category-with-home', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ category }),
-    });
-    if (response.ok) {
-      console.log('Category and home pages revalidated');
-    } else {
-      alert('Failed to revalidate category and home pages');
+  // function to revalidate ISR pages on submit
+  const revalidateCategoryWithHome = async (category) => {
+    try {
+      const response = await fetch('/api/revalidate/category-with-home', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ category }),
+      });
+      if (response.ok) {
+        console.log('Category and home pages revalidated');
+      } else {
+        alert('Failed to revalidate category and home pages');
+      }
+    } catch (error) {
+      console.error('Error revalidating category and home pages:', error);
+      alert('Error revalidating category and home pages');
     }
-  } catch (error) {
-    console.error('Error revalidating category and home pages:', error);
-    alert('Error revalidating category and home pages');
-  }
-};
+  };
 
-const makeUrlFriendly = (input) => {
-  // Define a regular expression for all non-URL-friendly characters
-  const regex = /[^a-zA-Z0-9]/g;
-  
-  // Replace all matches of the regex with a hyphen
-  return input.replace(regex, '-');
-};
+  const makeUrlFriendly = (input) => {
+    // Define a regular expression for all non-URL-friendly characters
+    const regex = /[^a-zA-Z0-9]/g;
+
+    // Replace all matches of the regex with a hyphen
+    return input.replace(regex, '-');
+  };
 
 
 
@@ -289,7 +291,7 @@ const makeUrlFriendly = (input) => {
     // creating document name with a fixed time (the moment user press the submit button) to reference it in multiple places like  Firestore as document.id .
     const submitTimestamp = new Date().toISOString();
 
-    const newsId= makeUrlFriendly(submitTimestamp);
+    const newsId = makeUrlFriendly(submitTimestamp);
 
 
 
@@ -370,10 +372,12 @@ const makeUrlFriendly = (input) => {
       videoPath,
       timestamp: new Date(),
       tags: formValues.tags ? formValues.tags.split(',').map(tag => tag.trim()) : [],
+      keywords: formValues.keywords ? formValues.keywords.split(',').map(keyword => keyword.trim()) : [],
       title: formValues.title || null,
       category: formValues.category || null,
       reporterName: formValues.reporterName || null,
       reporterEmail: currentUser.email,
+      authorNameEnglish: formValues.authorNameEnglish || null,
       imageCredit: formValues.imageCredit || null,
       imageCredit1: formValues.imageCredit1 || null,
       imageCredit2: formValues.imageCredit2 || null,
@@ -394,6 +398,7 @@ const makeUrlFriendly = (input) => {
       link: formValues.link || null,
       instagramUrl: formValues.instagramUrl || null,
       instagramCredit: formValues.instagramCredit || null,
+      summary: formValues.summary || null,
     };
 
     try {
@@ -411,7 +416,9 @@ const makeUrlFriendly = (input) => {
         title: '',
         category: '',
         reporterName: '',
+        authorNameEnglish: '',
         tags: '',
+        keywords: '',
         imageUrl: '',
         imageUrl1: '',
         imageUrl2: '',
@@ -442,6 +449,7 @@ const makeUrlFriendly = (input) => {
         link: '',
         instagramUrl: '',
         instagramCredit: '',
+        summary: '',
       });
 
     } catch (error) {
@@ -520,6 +528,7 @@ const makeUrlFriendly = (input) => {
             </Select>
           </FormControl>
 
+
           <TextField
             label="Reporter Name"
             variant="outlined"
@@ -530,7 +539,33 @@ const makeUrlFriendly = (input) => {
             margin="normal"
           />
 
-          <Typography variant="subtitle1" component="div" sx={{ color: 'info.main' }}>↓ Add &apos; <span style={{color: 'red'}} >main</span> &apos; tag to display as main news</Typography>
+          <TextField
+            label="Author name in English (Google Search)"
+            variant="outlined"
+            name="authorNameEnglish"
+            value={formValues.authorNameEnglish}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
+          />
+
+          <Typography variant="subtitle1" component="div" sx={{ color: 'warning.main' }}>Google searches are mostly in English. So, a very short summary in English can help.</Typography>
+
+          <TextField
+            label="News summary in English"
+            variant="outlined"
+            name="summary"
+            value={formValues.summary}
+            onChange={handleChange}
+            fullWidth
+            required
+            margin="normal"
+            multiline
+            rows={3}
+          />
+
+          <Typography variant="subtitle1" component="div" sx={{ color: 'info.main' }}><span style={{ color: 'gray'}}>Plz keep tags consistent. For example: Narendra Modi, not modi or ModiJi.  Usage: when tags repeat across news articles we can find &apos;related news&apos; easily. </span>↓ Add &apos; <span style={{ color: 'red' }} >main</span> &apos; tag to display as main news. </Typography>
 
           <TextField
             label="Tags (comma separated) "
@@ -540,6 +575,21 @@ const makeUrlFriendly = (input) => {
             onChange={handleChange}
             fullWidth
             margin="normal"
+          />
+
+          <Typography variant="subtitle1" component="div" sx={{ color: 'warning.main' }}>Keywords are required for Google Search. (Tags are automatically added to keywords) </Typography>
+
+          <TextField
+            label="Keywords (comma separated) - max 50"
+            variant="outlined"
+            name="keywords"
+            value={formValues.keywords}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            multiline
+            rows={3}
+            required
           />
 
 
@@ -730,6 +780,7 @@ const makeUrlFriendly = (input) => {
 
 
           {/* YouTube Video URL */}
+          
           <TextField
             label="YouTube Video URL"
             variant="outlined"

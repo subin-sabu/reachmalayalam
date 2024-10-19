@@ -64,7 +64,7 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
           return (
             <Card key={index} sx={{ display: 'flex', mb: 2, maxWidth: 500, borderRadius: 2 }}>
 
-              <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link href={`/${news.category}/${news.id}`} passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                 <Box sx={{ display: 'flex', width: '100%', padding: 1, flexDirection: 'row', alignItems: 'center' }}>
                   <Box sx={{ width: '15%' }} >
                     <Box sx={{ width: '100%', height: 0, paddingBottom: '100%', position: 'relative' }}>

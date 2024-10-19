@@ -177,7 +177,7 @@ export default function TopNav() {
         <Button onClick={handleCloseDialog} sx={{ position: 'absolute', top: '10px', right: '10px', marginTop:'-10px' }}>Close</Button>
       </Dialog>
       <Box sx={{display:'flex', flexDirection:'row' ,  justifyContent:'center', pt:1 }}>
-        <BlinkingText  text={` ⓘ WEBSITE UNDER TESTING`}/>
+        <BlinkingText  text={` ⓘ WEBSITE UNDER DEVELOPMENT`}/>
       </Box>
     </Box>
   );

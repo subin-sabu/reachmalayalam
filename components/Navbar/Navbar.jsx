@@ -90,7 +90,7 @@ function Navbar() {
           </IconButton>
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' }, paddingRight: { xs: '40px', md: 'none' } }}>
             <Link href="/" passHref>
-              <Image src={reach.src} alt="Logo" width={100} height={100} layout='responsive' style={{ maxHeight: '90px' }} />
+              <Image src={reach.src} alt="Logo" width={100} height={100} layout='responsive' style={{ maxHeight: '90px' }} unoptimized={true} />
             </Link>
           </Box>
           <Box sx={{

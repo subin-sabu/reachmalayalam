@@ -61,6 +61,7 @@ const NewsCardShare = ({ category, cardLimit, startIndex, endIndex, className, h
                       alt="news image"
                       fill
                       style={{ objectFit: 'cover' }} // Ensures the image covers the area without distortion
+                      unoptimized={true}
                     />
                   </Box>
                   <CardContent>

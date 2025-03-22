@@ -118,6 +118,7 @@ export default function NewsCardScroll({ startIndex, endIndex, className }) {
                       alt="news image"
                       fill
                       style={{ objectFit: 'cover' }} // Ensures the image covers the area without distortion
+                      unoptimized={true}
                     />
                   </Box>
                   <CardContent sx={{width:'88%'}}>

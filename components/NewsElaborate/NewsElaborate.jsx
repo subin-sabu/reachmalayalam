@@ -108,6 +108,7 @@ const NewsElaborate = ({ id, className, newsData }) => {
           width={820}
           height={600}
           layout='responsive'
+          unoptimized={true}
           alt='main image of news'
           />}
 
@@ -140,6 +141,7 @@ const NewsElaborate = ({ id, className, newsData }) => {
           width={820}
           height={600}
           layout='responsive'
+          unoptimized={true}
           alt=' image 2 of news'
           />}
         {newsItem.imageCredit1 && (
@@ -175,6 +177,7 @@ const NewsElaborate = ({ id, className, newsData }) => {
           width={820}
           height={600}
           layout='responsive'
+          unoptimized={true}
           alt=' image 3 of news'
           />}
         {newsItem.imageCredit2 && (
@@ -207,6 +210,7 @@ const NewsElaborate = ({ id, className, newsData }) => {
           width={820}
           height={600}
           layout='responsive'
+          unoptimized={true}
           alt=' image 4 of news'
           />}
         {newsItem.imageCredit3 && (

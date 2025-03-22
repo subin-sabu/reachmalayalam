@@ -651,7 +651,7 @@ const NewsForm = () => {
             <>
               {imagePreview && (
                 <>
-                  <Image src={imagePreview} alt="Preview" width={100} height={100} layout='responsive' style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
+                  <Image src={imagePreview} alt="Preview" width={100} height={100} layout='responsive' unoptimized={true} style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
                   <Typography variant="body2">{formValues.imageFile && formValues.imageFile.name}</Typography>
                   <Button variant="contained" color="warning" onClick={() => handleCancel('imageUrl')} style={{ marginTop: '10px', marginBottom: '10px' }}>
                     Cancel Upload
@@ -685,7 +685,7 @@ const NewsForm = () => {
             <>
               {imagePreview1 && (
                 <>
-                  <Image src={imagePreview1} alt="Preview" width={100} height={100} layout='responsive' style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
+                  <Image src={imagePreview1} alt="Preview" width={100} height={100} layout='responsive' unoptimized={true} style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
                   <Typography variant="body2">{formValues.imageFile1 && formValues.imageFile1.name}</Typography>
                   <Button variant="contained" color="warning" onClick={() => handleCancel('imageUrl1')} style={{ marginTop: '10px', marginBottom: '10px' }}>
                     Cancel Upload
@@ -719,7 +719,7 @@ const NewsForm = () => {
             <>
               {imagePreview2 && (
                 <>
-                  <Image src={imagePreview2} alt="Preview" width={100} height={100} layout='responsive' style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
+                  <Image src={imagePreview2} alt="Preview" width={100} height={100} layout='responsive' unoptimized={true} style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
                   <Typography variant="body2">{formValues.imageFile2 && formValues.imageFile2.name}</Typography>
                   <Button variant="contained" color="warning" onClick={() => handleCancel('imageUrl2')} style={{ marginTop: '10px', marginBottom: '10px' }}>
                     Cancel Upload
@@ -752,7 +752,7 @@ const NewsForm = () => {
             <>
               {imagePreview3 && (
                 <>
-                  <Image src={imagePreview3} alt="Preview" width={100} height={100} layout='responsive' style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
+                  <Image src={imagePreview3} alt="Preview" width={100} height={100} layout='responsive' unoptimized={true} style={{ maxHeight: 100, width: 'auto', margin: '10px 0' }} />
                   <Typography variant="body2">{formValues.imageFile3 && formValues.imageFile3.name}</Typography>
                   <Button variant="contained" color="warning" onClick={() => handleCancel('imageUrl3')} style={{ marginTop: '10px', marginBottom: '10px' }}>
                     Cancel Upload

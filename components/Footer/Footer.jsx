@@ -117,7 +117,7 @@ function Footer() {
 
         {/* Reach Malayalam logo */}
         <div style={{ display: 'flex', justifyContent: 'flex-start', paddingTop: '1rem' }}>
-          <Image src="/logo512.png" alt="Reach Malayalam Logo" width={300} height={300}  layout='responsive' style={{ maxWidth: '150px' }} />
+          <Image src="/logo512.png" alt="Reach Malayalam Logo" width={300} height={300}  layout='responsive' style={{ maxWidth: '150px' }} unoptimized={true} />
         </div>
         {/* Social media icons */}
         <div className="social" style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', paddingBottom: '1rem', marginLeft: '0.5rem' }}>

@@ -74,6 +74,7 @@ export default function MainNews({ startIndex, endIndex, className, cardLimit, c
                       style={{objectFit:'cover'}} // Ensures the image covers the area without distortion
                       sizes="(max-width: 500px) 500px, 820px" // Adjust as per your layout
                       priority // Optional: Makes sure important images are loaded first
+                      unoptimized={true}
                     />
                   </Box>
 

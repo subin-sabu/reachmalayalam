@@ -73,6 +73,7 @@ function NewsCardVertical({ startIndex, endIndex, heading, className, category, 
                         alt="news"
                         fill
                         style={{ borderRadius: '8px', objectFit: 'cover' }}
+                        unoptimized={true}
                       />
                     </Box>
                   </Box>

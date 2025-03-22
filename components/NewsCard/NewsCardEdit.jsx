@@ -60,6 +60,7 @@ const NewsCardEdit = ({ category, cardLimit, startIndex, endIndex, className, he
                       alt={item.title || `news`}
                       fill
                       style={{ objectFit: 'cover' }} // Ensures the image covers the area without distortion
+                      unoptimized={true}
                     />
                   </Box>
                     <CardContent>

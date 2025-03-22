@@ -61,6 +61,7 @@ const NewsBullets = ({ className, heading, startIndex, endIndex, cardLimit }) =>
                         alt="news"
                         fill
                         style={{ borderRadius: '8px', objectFit: 'cover' }}
+                        unoptimized={true}
                       />
                     </Box>
             </div>

@@ -100,6 +100,7 @@ export default function NewsCard({ startIndex, endIndex, className, imageType, c
                         style={{ objectFit: 'cover' }} // Ensures the image covers the area without distortion
                         sizes="(max-width: 500px) 500px, 820px" // Adjust as per your layout
                         priority // Optional: Makes sure important images are loaded first
+                        unoptimized={true}
                       />
                     </Box>
                     <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

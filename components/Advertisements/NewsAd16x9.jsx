@@ -3,7 +3,7 @@ import { Link } from '@mui/material'
 import Image from 'next/image'
 
 function HomeAd16x9({className}) {
-  let ad = '/Ad Images/UmeshCo.jpg'
+  let ad = '/Ad Images/UmeshCo-v2.jpg'
 
   return (
     <div className={className}>

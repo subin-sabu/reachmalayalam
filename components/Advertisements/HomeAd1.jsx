@@ -6,7 +6,7 @@ import Image from 'next/image'
 //className prop helps apply custom css (eg. to hide in grid) when used in different pages. 
 function HomeAd1({className}) {
   let altPath='/Ad Images/banner.gif'
-  let imagePath = '/Ad Images/umesh banner.jpg'
+  let imagePath = '/Ad Images/umesh banner-v2.jpg'
   return (
     
     <div className={className} style={{ marginTop: '1rem' , marginBottom:'0.5rem'}}>

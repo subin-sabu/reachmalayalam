@@ -11,7 +11,7 @@ function HomeAd1({className}) {
     
     <div className={className} style={{ marginTop: '1rem' , marginBottom:'0.5rem'}}>
       <Link href="https://www.justdial.com/Kasaragod/Umesh-Kamath-Co-Near-Minarva-Theatre-Kanhangadaffic-Circle-Kanhangad/9999P4994-4994-140308113806-A5Y9_BZDET" target="_blank" rel="noopener noreferrer" alt='home ad1 link' style={{textDecoration:'none', color:'inherit'}}>
-        <Image style={{  border: '1px solid lightgray'}}
+        <Image style={{  border: '1px solid lightgray', paddingLeft: 'clamp(1rem, 10vw, 15vw)', paddingRight: 'clamp(1rem, 10vw, 15vw)'}}
           src={imagePath || altPath} 
           alt="HomeAd1"
           width={970}

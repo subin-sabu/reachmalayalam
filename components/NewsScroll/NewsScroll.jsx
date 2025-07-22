@@ -8,12 +8,12 @@ import { BulletContext } from '../../contexts/BulletContext'
 function NewsScroll() {
    
   const {news, contextLoading } = useContext(NewsContext);
-  const scrollNews = news.slice(0,4)
+  const scrollNews = news.slice(0,3)
   
   const bulletsArray = useContext(BulletContext);
-  const scrollBullet = bulletsArray.slice(0,1)
+  const scrollBullet = bulletsArray.slice(0,0)
 
-  const scrollArray = [...scrollNews, ...scrollBullet, ...scrollNews, ...scrollBullet, ...scrollNews, ...scrollBullet,...scrollNews, ...scrollBullet, ...scrollNews, ...scrollBullet]
+  const scrollArray = [...scrollNews, ...scrollBullet, ...scrollNews, ...scrollBullet, ...scrollNews, ...scrollBullet,...scrollNews, ...scrollBullet, ...scrollNews, ...scrollBullet, ...scrollNews, ...scrollBullet, ...scrollNews]
 
   return (
     <Box className={styles['scroll-container']}  >

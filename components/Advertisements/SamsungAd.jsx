@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 //className prop helps apply custom css (eg. to hide in grid) when used in different pages. 
 function HomeAd1({className}) {
-  let Ad = '/Ad Images/kalari.jpg'
+  let Ad = '/Ad Images/kalari_new.jpg'
 
   return (
     

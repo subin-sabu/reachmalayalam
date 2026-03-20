@@ -23,6 +23,7 @@ import pages from '../Navbar/Categories';//to list categories
 import Image from 'next/image';
 import Resizer from "react-image-file-resizer";
 const uuidv4 = require('uuid').v4; // Import uuidv4 library
+import { uploadFile } from '@/lib/uploadFile';
 
 
 
@@ -207,7 +208,7 @@ const NewsForm = () => {
         maxWidth,
         maxHeight,
         'JPEG',
-        100,
+        70,
         0,
         (uri) => {
           resolve(uri);
@@ -223,31 +224,31 @@ const NewsForm = () => {
     return uploadFile(resizedImage, path);
   };
 
-  const uploadFile = async (file, path) => {
-    try {
-      // Generate a UUIDv4 string
-      const uuid = uuidv4();
+  // const uploadFile = async (file, path) => {
+  //   try {
+  //     // Generate a UUIDv4 string
+  //     const uuid = uuidv4();
 
-      // Construct new file name with UUIDv4 and original file name
-      const newFileName = `${uuid}_${file.name}`;
+  //     // Construct new file name with UUIDv4 and original file name
+  //     const newFileName = `${uuid}_${file.name}`;
 
-      // Create a storage reference with the new file name
-      const fileRef = ref(storage, `${path}/${newFileName}`);
+  //     // Create a storage reference with the new file name
+  //     const fileRef = ref(storage, `${path}/${newFileName}`);
 
-      // Upload the file to Firebase Storage
-      const snapshot = await uploadBytes(fileRef, file);
-      const url = await getDownloadURL(snapshot.ref);
+  //     // Upload the file to Firebase Storage
+  //     const snapshot = await uploadBytes(fileRef, file);
+  //     const url = await getDownloadURL(snapshot.ref);
 
-      // Construct full Firestore path
-      const fullPath = `${path}/${newFileName}`;
+  //     // Construct full Firestore path
+  //     const fullPath = `${path}/${newFileName}`;
 
-      // Return an object containing URL and full Firestore path
-      return { url, fullPath };
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      return null;
-    }
-  };
+  //     // Return an object containing URL and full Firestore path
+  //     return { url, fullPath };
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //     return null;
+  //   }
+  // };
 
 
 

@@ -208,7 +208,7 @@ const NewsForm = () => {
         maxWidth,
         maxHeight,
         'JPEG',
-        70,
+        100,
         0,
         (uri) => {
           resolve(uri);
@@ -302,17 +302,30 @@ const NewsForm = () => {
     let imagePath = null;
     let thumbnailPath = null;
 
-    // Resize and upload image for thumbnailUrl
     if (formValues.imageFile) {
-      // Resize and upload image for thumbnailUrl
-      const thumbnailResult = await resizeAndUploadImage(formValues.imageFile, 'images/thumbnails', 200, 150);
-      thumbnailUrl = thumbnailResult.url;
-      thumbnailPath = thumbnailResult.fullPath;
 
       // Resize and upload image for imageUrl
       const imageResult = await resizeAndUploadImage(formValues.imageFile, 'images', 820, 800);
       imageUrl = imageResult.url;
       imagePath = imageResult.fullPath;
+
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        imageUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath}`;
+      }
+
+      // Resize and upload image for thumbnailUrl
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "firebase") {
+        const thumbnailResult = await resizeAndUploadImage(formValues.imageFile, 'images/thumbnails', 200, 150);
+        thumbnailUrl = thumbnailResult.url;
+        thumbnailPath = thumbnailResult.fullPath;
+      }
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        thumbnailUrl =
+          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_200,h_150,c_fill,q_auto,f_auto/${imagePath}`;
+        thumbnailPath = null;
+      }
+
+
     }
 
     //upload additional images and get link
@@ -330,21 +343,38 @@ const NewsForm = () => {
       const imageResult = await resizeAndUploadImage(formValues.imageFile1, 'images', 820, 800);
       imageUrl1 = imageResult.url;
       imagePath1 = imageResult.fullPath;
+
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        imageUrl1 = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath1}`;
+      }
     }
+
 
     // Resize and upload image for imageUrl2
     if (formValues.imageFile2) {
       const imageResult = await resizeAndUploadImage(formValues.imageFile2, 'images', 820, 800);
       imageUrl2 = imageResult.url;
       imagePath2 = imageResult.fullPath;
+
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        imageUrl2 = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath2}`;
+      }
     }
+
+
 
     // Resize and upload image for imageUrl3
     if (formValues.imageFile3) {
       const imageResult = await resizeAndUploadImage(formValues.imageFile3, 'images', 820, 800);
       imageUrl3 = imageResult.url;
       imagePath3 = imageResult.fullPath;
+
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        imageUrl3 = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath3}`;
+      }
     }
+
+
 
 
 

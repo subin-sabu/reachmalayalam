@@ -3,7 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 function HomeAd16x9({className}) {
-  let imagePath = '/Ad Images/ReachAd16x9.jpg'
+  let imagePath = '/Ad Images/ReachAd16x9_V1.jpg'
   return (
     <div className={className}>
       <Link href='/kerala/2024-04-20T17:10:20.307Z' alt='ad link' style={{textDecoration:'none', color:'inherit'}}>

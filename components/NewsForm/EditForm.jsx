@@ -23,6 +23,7 @@ import { NewsContext } from '../../contexts/NewsContext';
 import pages from '../Navbar/Categories';//for categories
 import Image from 'next/image';
 const uuidv4 = require('uuid').v4; // Import uuidv4 library
+import { uploadFile } from '@/lib/uploadFile';
 
 
 const EditForm = ({ id }) => {
@@ -295,13 +296,44 @@ const EditForm = ({ id }) => {
   };
 
   // Function to delete a file from Firebase Storage based on its path
-  const deleteFile = async (path) => {
+  // const deleteFile = async (path) => {
+  //   try {
+  //     await deleteObject(ref(storage, path));
+  //   } catch (error) {
+  //     throw new Error('Error deleting file from Firebase Storage:', error);
+  //   }
+  // };
+
+
+  /* New Function to delete a file from either Firebase or Cloudinary */
+  const deleteFile = async (path, resourceType = "image") => {
     try {
-      await deleteObject(ref(storage, path));
+
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "firebase") {
+
+        await deleteObject(ref(storage, path));
+
+      } else if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+
+        await fetch("/api/cloudinary-delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            public_id: path,
+            resource_type: resourceType
+          })
+        });
+
+      }
+
     } catch (error) {
-      throw new Error('Error deleting file from Firebase Storage:', error);
+      console.error("Error deleting file:", error);
     }
   };
+
+
 
   const deleteFilesWithoutUrls = async () => {
     try {
@@ -317,7 +349,10 @@ const EditForm = ({ id }) => {
         if (formValues.imageUrl === null && formValues.imagePath) {
           await deleteFile(formValues.imagePath);
           // Also delete the thumbnail
-          await deleteFile(formValues.thumbnailPath);
+          // This is required since cloudinary doesnt upload thumbnails.When uploading using cloudinary thumnailPath would be null
+          if (formValues.thumbnailPath) {
+            await deleteFile(formValues.thumbnailPath);
+          }
         }
         if (formValues.imageUrl1 === null && formValues.imagePath1) {
           await deleteFile(formValues.imagePath1);
@@ -329,7 +364,7 @@ const EditForm = ({ id }) => {
           await deleteFile(formValues.imagePath3);
         }
         if (formValues.videoUrl === null && formValues.videoPath) {
-          await deleteFile(formValues.videoPath);
+          await deleteFile(formValues.videoPath, "video");
         }
       }
     } catch (error) {
@@ -408,31 +443,31 @@ const EditForm = ({ id }) => {
     return uploadFile(resizedImage, path);
   };
 
-  const uploadFile = async (file, path) => {
-    try {
-      // Generate a UUIDv4 string
-      const uuid = uuidv4();
+  // const uploadFile = async (file, path) => {
+  //   try {
+  //     // Generate a UUIDv4 string
+  //     const uuid = uuidv4();
 
-      // Construct new file name with UUIDv4 and original file name
-      const newFileName = `${uuid}_${file.name}`;
+  //     // Construct new file name with UUIDv4 and original file name
+  //     const newFileName = `${uuid}_${file.name}`;
 
-      // Create a storage reference with the new file name
-      const fileRef = ref(storage, `${path}/${newFileName}`);
+  //     // Create a storage reference with the new file name
+  //     const fileRef = ref(storage, `${path}/${newFileName}`);
 
-      // Upload the file to Firebase Storage
-      const snapshot = await uploadBytes(fileRef, file);
-      const url = await getDownloadURL(snapshot.ref);
+  //     // Upload the file to Firebase Storage
+  //     const snapshot = await uploadBytes(fileRef, file);
+  //     const url = await getDownloadURL(snapshot.ref);
 
-      // Construct full Firestore path
-      const fullPath = `${path}/${newFileName}`;
+  //     // Construct full Firestore path
+  //     const fullPath = `${path}/${newFileName}`;
 
-      // Return an object containing URL and full Firestore path
-      return { url, fullPath };
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      return null;
-    }
-  };
+  //     // Return an object containing URL and full Firestore path
+  //     return { url, fullPath };
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //     return null;
+  //   }
+  // };
 
 
 
@@ -520,15 +555,52 @@ const EditForm = ({ id }) => {
 
     // Resize and upload image for thumbnailUrl
     if (formValues.imageFile) {
-      // Resize and upload image for thumbnailUrl
-      const thumbnailResult = await resizeAndUploadImage(formValues.imageFile, 'images/thumbnails', 200, 150);
-      thumbnailUrl = thumbnailResult.url;
-      thumbnailPath = thumbnailResult.fullPath;
 
-      // Resize and upload image for imageUrl
+      if (formValues.imagePath) {
+        await deleteFile(formValues.imagePath);
+      }
+
+      if (formValues.thumbnailPath) {
+        await deleteFile(formValues.thumbnailPath);
+      }
+
+
+      // Upload main image
       const imageResult = await resizeAndUploadImage(formValues.imageFile, 'images', 820, 800);
       imageUrl = imageResult.url;
       imagePath = imageResult.fullPath;
+
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+
+        imageUrl =
+          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath}`;
+
+      }
+
+      // Thumbnail handling
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "firebase") {
+
+        const thumbnailResult = await resizeAndUploadImage(
+          formValues.imageFile,
+          'images/thumbnails',
+          200,
+          150
+        );
+
+        thumbnailUrl = thumbnailResult.url;
+        thumbnailPath = thumbnailResult.fullPath;
+
+      }
+
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+
+        thumbnailUrl =
+          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_200,h_150,c_fill,q_auto,f_auto/${imagePath}`;
+
+        thumbnailPath = null;
+
+      }
+
     }
 
     //upload additional images and get link
@@ -541,29 +613,61 @@ const EditForm = ({ id }) => {
 
     // Resize and upload image for imageUrl1
     if (formValues.imageFile1) {
+
+      if (formValues.imagePath1) {
+        await deleteFile(formValues.imagePath1);
+      }
+
       const imageResult = await resizeAndUploadImage(formValues.imageFile1, 'images', 820, 800);
       imageUrl1 = imageResult.url;
       imagePath1 = imageResult.fullPath;
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        imageUrl1 =
+          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath1}`;
+      }
     }
 
     // Resize and upload image for imageUrl2
     if (formValues.imageFile2) {
+
+      if (formValues.imagePath2) {
+        await deleteFile(formValues.imagePath2);
+      }
+
       const imageResult = await resizeAndUploadImage(formValues.imageFile2, 'images', 820, 800);
       imageUrl2 = imageResult.url;
       imagePath2 = imageResult.fullPath;
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        imageUrl2 =
+          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath2}`;
+      }
     }
 
     // Resize and upload image for imageUrl3
     if (formValues.imageFile3) {
+
+      if (formValues.imagePath3) {
+        await deleteFile(formValues.imagePath3);
+      }
+
       const imageResult = await resizeAndUploadImage(formValues.imageFile3, 'images', 820, 800);
       imageUrl3 = imageResult.url;
       imagePath3 = imageResult.fullPath;
+      if (process.env.NEXT_PUBLIC_STORAGE_PROVIDER === "cloudinary") {
+        imageUrl3 =
+          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_820,h_800,c_limit,q_auto,f_auto/${imagePath3}`;
+      }
     }
 
     //upload video and get link
     let videoUrl = formValues.videoUrl || null;
     let videoPath = formValues.videoPath || null;
     if (formValues.videoFile) {
+
+      if (formValues.videoPath) {
+        await deleteFile(formValues.videoPath, "video");
+      }
+
       const videoData = await uploadFile(formValues.videoFile, 'videos');
       videoUrl = videoData.url;
       videoPath = videoData.fullPath;
@@ -619,7 +723,7 @@ const EditForm = ({ id }) => {
       const docRef = doc(db, 'news', id);
       const categoryChanged = oldCategory !== newsData.category;
       await updateDoc(docRef, newsData);
-      setLoading(false);
+       //setLoading(false);
       if (categoryChanged) {
         revalidateCategory(oldCategory);
         revalidateCategoryWithHome(newsData.category);

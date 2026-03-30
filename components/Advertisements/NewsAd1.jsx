@@ -8,12 +8,16 @@ import Image from 'next/image';
 function NewsAd1({className}) {
   const isMdUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
   let altAd = '/Ad Images/banner.gif'
-  let Ad = '/Ad Images/ayurveda.jpg'
+  let Ad = '/Ad Images/ayurveda_oil.png'
+
+  const phone = "918075928119"
+  const message = "I just saw your Ayurveda Oil Ad on Reach Malayalam. I am interested to buy."
+  const whatsappLink = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
   
   return (
     
     <div className={className} style={{ marginTop: '1rem' , marginBottom:'0.5rem', display:'flex' , justifyContent:'center'}}>
-      <Link  target="_blank" rel="noopener noreferrer" alt='news ad1 link' style={{textDecoration:'none', color:'inherit'}}>
+      <Link href={whatsappLink} target="_blank" rel="noopener noreferrer" alt='news ad1 link' style={{textDecoration:'none', color:'inherit'}}>
         <Image  style={{
             width: isMdUp ? '50vw' : '100%', // Set width to 60vw on md and up screens, and 100% on xs and sm screens
             maxWidth: '100%',

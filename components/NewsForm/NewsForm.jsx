@@ -435,9 +435,9 @@ const NewsForm = () => {
     try {
       const docRef = doc(collection(db, "news"), newsId);
       await setDoc(docRef, newsData);
+      await revalidateCategoryWithHome(newsData.category);
       setLoading(false);
       alert('News uploaded successfully');
-      revalidateCategoryWithHome(newsData.category);
       setImagePreview('');
       setImagePreview1('');
       setImagePreview2('');

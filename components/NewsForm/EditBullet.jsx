@@ -19,6 +19,7 @@ import Resizer from 'react-image-file-resizer';
 import { BulletContext } from '../../contexts/BulletContext';
 import Image from 'next/image';
 const uuidv4 = require('uuid').v4; // Import uuidv4 library
+import resizeImage from '@/Utils/resizeImage';
 
 
 const EditBullet = ({id}) => {
@@ -160,26 +161,26 @@ const EditBullet = ({id}) => {
 
 
   // Function to resize the image
-  const resizeFile = (file, maxWidth, maxHeight) =>
-    new Promise((resolve) => {
-      Resizer.imageFileResizer(
-        file,
-        maxWidth,
-        maxHeight,
-        'JPEG',
-        100,
-        0,
-        (uri) => {
-          resolve(uri);
-        },
-        'file',
-      );
-    });
+  // const resizeFile = (file, maxWidth, maxHeight) =>
+  //   new Promise((resolve) => {
+  //     Resizer.imageFileResizer(
+  //       file,
+  //       maxWidth,
+  //       maxHeight,
+  //       'JPEG',
+  //       100,
+  //       0,
+  //       (uri) => {
+  //         resolve(uri);
+  //       },
+  //       'file',
+  //     );
+  //   });
 
 
   // Function to resize and upload image
   const resizeAndUploadImage = async (file, path, maxWidth, maxHeight) => {
-    const resizedImage = await resizeFile(file, maxWidth, maxHeight);
+    const resizedImage = await resizeImage(file, maxWidth, maxHeight);
     return uploadFile(resizedImage, path);
   };
 

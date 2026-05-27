@@ -1,14 +1,23 @@
+// Utils/resizeImage.js
+
 import Resizer from 'react-image-file-resizer';
 
-const resizeImage = (file, maxWidth, maxHeight) => {
-  return new Promise((resolve, reject) => {
+const resizeImage = (
+  file,
+  maxWidth = 1000,
+  maxHeight = 1000,
+  compressFormat = "JPEG",
+  quality = 90,
+  rotation = 0,
+) => {
+  return new Promise((resolve) => {
     Resizer.imageFileResizer(
       file,
       maxWidth,
       maxHeight,
-      'JPEG',
-      100,
-      0,
+      compressFormat,
+      quality,
+      rotation,
       (uri) => {
         resolve(uri);
       },

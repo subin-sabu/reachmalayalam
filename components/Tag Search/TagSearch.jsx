@@ -34,7 +34,10 @@ const TagSearch = ({ tags }) => {
     navigate(`/${category}/${id}`);
   };
 
-  const filteredTags = tags.filter(tag => tag.toLowerCase() !== 'main');
+  const filteredTags = tags.filter((tag) => {
+    const t = tag.trim().toLowerCase();
+    return t !== 'main' && t !== 'scroll';
+  });
 
   return (
     <Box>
@@ -55,7 +58,7 @@ const TagSearch = ({ tags }) => {
       ) : (
         <Typography variant="body1" marginLeft={2} marginRight={2}>No keywords</Typography>
       )}
-      <Dialog open={openDialog} onClose={handleCloseDialog} sx={{ maxWidth: 'sm', width: '100%', '& .MuiDialog-paper': { maxWidth: 'sm', width: '100%' }, justifySelf:'center' }}>
+      <Dialog open={openDialog} onClose={handleCloseDialog} sx={{ maxWidth: 'sm', width: '100%', '& .MuiDialog-paper': { maxWidth: 'sm', width: '100%' }, justifySelf: 'center' }}>
         <DialogTitle>{dialogTitle}</DialogTitle>
         {searchResults.length > 0 ? (
           <List>
@@ -76,7 +79,7 @@ const TagSearch = ({ tags }) => {
             </Typography>
           </Typography>
         )}
-        <Button onClick={handleCloseDialog} sx={{ position: 'absolute', top: '10px', right: '10px', marginTop:'-10px' }}>Close</Button>
+        <Button onClick={handleCloseDialog} sx={{ position: 'absolute', top: '10px', right: '10px', marginTop: '-10px' }}>Close</Button>
       </Dialog>
     </Box>
   );
